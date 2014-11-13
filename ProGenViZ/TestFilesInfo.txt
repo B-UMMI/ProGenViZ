@@ -1,0 +1,6 @@
+FASTA file with contigs of Streptococcus pneumoniae OXC141
+GFF file of Streptococcus pneumoniae TIGR4
+GBK file of Streptococcus pneumoniae 70585
+GFF file of Streptococcus pneumoniae 70585
+GBK file of Streptococcus pneumoniae 670-6B
+GFF file of Streptococcus pneumoniae 670-6B

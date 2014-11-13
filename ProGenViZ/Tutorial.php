@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>ProGenViZ</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <!--<link href="css/bootstrap-theme.min.css" rel="stylesheet">-->
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+
+  <?php 
+    session_start();
+
+    
+  ?>
+
+  <body bgcolor="black">
+
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">ProGenViZ</a>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="index.php">Home</a></li>
+                <li><a  href="#" data-toggle="modal" data-target="#myModalContigs">Start Using</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Tutorial</a></li>
+                    <li class="divider"></li>
+                    <li><a href="TestFiles.php">Test Files</a></li>
+                  </ul>
+                </li>
+                <li><a href="About.php">About</a></li>
+                <li><a href="Contact.php">Contacts</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  <div class="container theme-showcase">
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+     
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="img/MainPage.png" alt=""  width="100%" height="100%">
+          <div class="container" id="car1">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/AddFiles.png" alt="" width="100%" height="80%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/workstation.png" alt="" width="100%" height="100%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/Info.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/ComparisonMethods.png" alt="" width="100%" height="100%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/ImageExport.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/searchTransporter.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/tableSearch.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/linesSearch.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/beforeBlast1.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/BLAST.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/contig1.png" alt="" width="100%" height="100%">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/contigBLAST.png" alt="" width="100%" height="100%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/contigBsearch.png" alt="" width="100%" height="100%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/contigAnnotation.png" alt="" width="100%" height="100%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/ExportGff.png" alt="" width="100%" height="100%">
+          <div class="container" id="car3">
+            <div class="carousel-caption">
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"></a>
+    </div>
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+    
+      </div>
+
+
+  <div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="col-lg-3">
+          <img src="img/Logo-IMM.png" style="width: 200px; height: 200px; position: right;">
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-7">
+          <p align="justify" style= "font-size:18px">This is a tutorial that shows how users can use this software to upload their files, search for especific genomic regions,
+                            stablish relationships between genomic regions, annotate sequences, re-annotate regions and export data.</p><p>&nbsp;</p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-1">
+          <img src="img/fcul.png" style="width: 200px; height: 200px;">
+        </div><!-- /.col-lg-4 -->
+        
+
+
+    </div>  
+
+
+
+<div class="modal fade" id="myModalContigs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add files to the analysis</h4>
+      </div>
+      <div class="modal-body">
+                    <form name="uploadFiles" enctype='multipart/form-data' action='uploaderWithContigs.php' method='POST' onsubmit="return validateForm();">
+                           Choose an Option:<select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
+                                     <option value="yes">GFF+Fasta</option>
+                                     <option value="no">Others</option></select>
+                          <div id="fileOther"></div>
+                          <div id="fileGFF+FASTA"><br>Choose a .gff file: <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default'/>
+                          <br>Choose a .fasta file: <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default'/><br></div>
+                          <input type="checkbox" name="Iscontig" value="yes">It is a file with contigs data<br>
+                          <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <input type='submit' class='btn btn-primary' value='Upload File' />
+                          </div>
+                          <input type='hidden' name='addmorefiles' value='addfiles'/>
+                          </form>              
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/holder.js"></script>
+    
+    <script>  
+
+
+      function showToUpload() {
+        var selected=document.getElementById("inputType").value;
+        if (selected=='no'){
+          document.getElementById("fileGFF+FASTA").innerHTML="";
+          document.getElementById("fileOther").innerHTML="<br>Choose one of the supported file formats (.fasta, .gbk, .gff): <input name='moreuploadedfile[]' type='file' class='btn btn-default'/><br>";
+        }
+        if (selected=='yes'){
+          document.getElementById("fileOther").innerHTML="";
+          document.getElementById("fileGFF+FASTA").innerHTML="<br>Choose a GFF file: <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default'/><br>Choose a FASTA file: <input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default'/><br>";
+        }
+      }
+
+      function validateForm() {
+        var y = document.forms["uploadFiles"]["typeUpload"].value;
+        if (y =='yes'){
+          var XfilesGFF=document.forms["uploadFiles"]["moreuploadedfileGFF[]"].files;
+          var XfilesFASTA=document.forms["uploadFiles"]["moreuploadedfileFASTA[]"].files;
+          if (XfilesGFF.length==0 || XfilesFASTA.length==0){
+            $('#myModalShowErrorTypeUpload').modal('show');
+            return false;
+          }
+          else{
+            if ((XfilesFASTA[0].name.search('.fa')==-1 && XfilesFASTA[0].name.search('.fasta')==-1) || XfilesGFF[0].name.search('.gff')==-1) {
+              $('#myModalShowErrorTypeUpload').modal('show');
+            return false;
+            }
+          }
+      }
+        else{
+        var Xfiles=document.forms["uploadFiles"]["moreuploadedfile[]"].files;
+        if (Xfiles.length==0){
+            $('#myModalShowError').modal('show');
+            return false;
+          }
+        else{
+          var x =Xfiles[0].name;
+          if (x == null || x == "" || (x.search('.fa')==-1 && x.search('.fasta')==-1 && x.search('.gbk')==-1 && x.search('.gff')==-1)) {
+              $('#myModalShowError').modal('show');
+          return false;
+        }
+      }
+      }
+    }
+
+      $(function ()  
+          { $("#compare_files_contigs").popover();    //say that this element is a popover.
+          });
+      $(function ()  
+          { $("#compare_files_genes").popover();    //say that this element is a popover.
+          }); 
+
+      $('.dropdown-menu').click(function (e) { //necessary to prevent dropdown-menu from closing
+        e.stopPropagation();
+        }); 
+    </script>
+
+
+
+</body>
+
+  <!--MODALS-->
+<div class="modal fade" id="myModalShowError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Error</h4>
+      </div>
+      <div class="modal-body">Please choose a file to upload.<br>You only can upload one of the supported files. (.fasta, .gbk, .ptt, .fna, .ffn, .gff)
+</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModalShowErrorTypeUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Error</h4>
+      </div>
+      <div class="modal-body">For the option GFF + FASTA, you need to upload a sequence file (.fasta, .fna) and an annotation file (.gff) at the same time.
+</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<?php 
+    session_start();
+    session_unset(); 
+    $_SESSION['linearMode'] = 'no';
+    $_SESSION['userPath'] = substr(md5(microtime()),rand(0,26),8);
+    $_SESSION['inter-bygene'] = 'no';
+    $_SESSION['inter-byfunction'] = 'no';
+    $_SESSION['FilesAfterSearch'] = array();
+    $_SESSION["ContigsToExport"] = array();
+?>
+
+<!--<div class="modal fade" id="GeneTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Table of Hits</h4>
+      </div>
+      <div class="modal-body">
+
+    <table class="display dataTable" id="TableOfGenes"></table>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+</div>-->
+
+</html>

@@ -1,0 +1,84 @@
+#contextMenuPrev {
+    position: absolute;
+    display:none;
+}
+
+#contextMenu {
+    position: absolute;
+    display:none;
+}
+
+#chart-position { 
+				  float: right;
+				  width:85%;
+				  height:100%;}
+
+#sidebar {float:left; width:250px;}
+
+#check-upload{
+	float: left;
+	margin-left: 280px;
+	color:#ffffff;
+}
+
+#SearchTable .modal-dialog{
+  width:40%;
+}
+
+#myModaldashboard .modal-dialog{
+  width:100%;
+  height:100%;
+}
+
+#myModaldashboard1 .modal-dialog{
+  width:100%;
+  height:100%;
+}
+
+#myModalInfo .modal-dialog{
+  width:90%;
+  height:100%;
+}
+
+#myModalSearchMade .modal-dialog{
+  width:50%;
+}
+
+
+.matchesCell{
+	color: green;
+}
+
+.mismatchCell{
+	color: red;
+}
+
+#myModalShowSNP .modal-dialog{
+  width:100%;
+
+}
+
+
+#myModalShowSNP .first-column {
+  width: 10%;
+  float:left;
+}
+
+#myModalShowSNP .second-column {
+  overflow-x: auto;
+  width: 90%;
+  float:right;
+
+}
+
+#myModalShowSNP .all-columns {
+  width: 100%;
+}
+
+
+
+body{
+	background: #2c2c2c;
+}
+
+

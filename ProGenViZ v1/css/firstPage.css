@@ -1,0 +1,10 @@
+body {
+        background-color: #FFFFFF;
+}
+
+#SiteContainer
+    {
+        width: 2000px;
+        margin: 0 auto;
+        background-color: white;
+    }

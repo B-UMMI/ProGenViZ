@@ -124,6 +124,7 @@
   $existGFF='no';
   $existFASTA='no';
   if(isset($_POST['addmorefiles'])){
+    $_SESSION['alreadyShownUpload']='no';
       $num_files_path = count($path_value);
           $stringFiles=""; 
             if($_POST['typeUpload']=='yes'){
@@ -249,6 +250,7 @@
       #} 
 
     }
+    else $_SESSION['alreadyShownUpload']='yes';
 
     for($i=0; $i < count($_SESSION['array_path[]']);$i++){
       $filesNames = $filesNames.$_SESSION['array_path[]'][$i].'---';
@@ -335,24 +337,24 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Home</a></li>
+            <li class="active"><a class="navPrincipal" href="index.php">Home</a></li>                       
             <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
+                  <a href="#" class="navPrincipal" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="Tutorial.php">Tutorial</a></li>
+                    <li><a class="navPrincipal" href="Tutorial.php">Tutorial</a></li>
                     <li class="divider"></li>
-                    <li><a href="TestFiles.php">Test Files</a></li>
+                    <li><a class="navPrincipal" href="TestFiles.php">Test Files</a></li>
                   </ul>
                 </li>
-            <li><a href="About.php">About</a></li>
-            <li><a href="Contact.php">Contacts</a></li>
-            </ul></div></div></div>
+            <li><a class="navPrincipal" href="About.php">About</a></li>
+            <li><a class="navPrincipal" href="Contact.php">Contacts</a></li>
+          </ul></div></div></div>
 
   <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-          <li class="sidebar-brand" id="brand" style="color:white">Actions</li>
+          <li class="sidebar-brand" id="brand">Actions</li>
           <li><a href="#" data-toggle="modal" data-target="#myModalInfo">More Info</a></li>
-          <li><a href="#" data-toggle="modal" data-target="#myModalAdd">Add more files to compare</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#myModalAdd">Add file</a></li>
           <li><a href="#" data-toggle="modal" data-target="#myModalRemove">Remove files</a></li>
           <li><a href="#" data-toggle="modal" data-target="#myModalCompare">Comparison methods</a></li>
           <li><a href="#" data-toggle="modal" data-target="#myModalAddEx">Add/Exclude</a></li>
@@ -375,8 +377,9 @@
           </form>
           <!--<li><hr></hr></li>
           <li><a href="#" data-toggle="modal" data-target="#GeneTable">Table of Genes</a></li>-->
-          <li><hr></hr></li>
-          <li class="sidebar-brand" id="brand" style="color:white">Search</li>
+          <li class="sidebar-brand" id="brand">Search</li>
+          <li><a href="#" data-toggle="modal" data-target="#myModalSearchForSequence">By external sequence</a></li><li>&nbsp;</li>
+          <li><a>By annotation</a></li>
           
             
           <!--###########SEARCHES AND VISUALIZATION MODE CHOOSING##############################-->
@@ -407,8 +410,8 @@
                       <option value="Begin-End"/>Begin - End
                     </select>';
 
-              echo' <input type="text" name= "searchbox">
-                    <input type="submit" class="btn btn-primary" name="search-button" value="Search" />
+              echo' <input class="form-control" type="text" name= "searchbox" placeholder="type a search term">
+                    <input type="submit" class="btn btn-primary btn-lg"  style="width: 100%; padding: 2px 5px;" name="search-button" value="Search" />
                     <input type="hidden" name="add_hypothetical" value="undefined" />  
                     </form>';
 
@@ -416,9 +419,8 @@
             
 
             ?>
-            <li><a href="#" data-toggle="modal" data-target="#myModalSearchForSequence">Search By Sequence</a></li>
             <li><hr></hr></li>
-            <li><a>
+            <li>
               <?php
 
         if(isset($_POST['linearView'])){
@@ -432,7 +434,7 @@
 
         if($_SESSION['linearMode'] == 'yes'){
           echo '<form enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST">
-                    <input type="submit" class ="btn-link" name="linearView" value="Change to Hive Plot View"/>
+                    <input type="submit" class ="btn-link changeVisualButton" name="linearView" value="Change to Hive Plot View"/>
                     <input type="hidden"  name="edInfo" value="'.$_SESSION['editInfo'].'"/>';
 
           if (isset($_POST['selectionArray'])){
@@ -444,7 +446,7 @@
         }
         else{
           echo '<form enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST">
-                    <input type="submit" class ="btn-link" name="hiveView" value="Change to Linear View"/>
+                    <input type="submit" class ="btn-link changeVisualButton" name="hiveView" value="Change to Linear View"/>
                     <input type="hidden"  name="edInfo" value="'.$_SESSION['editInfo'].'"/>';
 
           if (isset($_POST['selectionArray'])){
@@ -458,32 +460,28 @@
 
       <!--###########END OF SEARCHES AND VISUALIZATION MODE CHOOSING##############################-->
 
-    </a></li>
+    </li>
     <li><a id="buttonSelPos"></a></li>
           <?php
               if (isset($_POST['remove_selection']) || $_SESSION['selectionArray']!=''){
                 echo '<li><hr></hr></li>';
                 echo '<li><form <form enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST">
-                        <input type="submit" class ="btn-link" name="removesel" value="Remove Selection" />
+                        <input type="submit" class ="btn-link removeSelection" name="removesel" value="Remove Selection" />
                         <input type="hidden" name="removeselection"/>';
                 echo'</form></li>';
               }
             ?>
 
     <li><hr></hr></li>
-    <li style="color:white">Comparison method in use: 
+    <li class ="CompMethodTitle">Comparison method:</li> 
     <?php
 
-      if($_SESSION['inter-bygene']=='yes') echo '<li style="color:white">Gene Name - next position Genome</li>';
-      else if($_SESSION['inter-byfunction']=='yes') echo '<li style="color:white">Function - next position Genome</li>';
-      else echo '<li style="color:white">None</li>';
+      if($_SESSION['inter-bygene']=='yes') echo '<li class ="CompMethod">Region Name</li>';
+      else if($_SESSION['inter-byfunction']=='yes') echo '<li class ="CompMethod">Region Product</li>';
+      else echo '<li class ="CompMethod">None</li>';
 
     ?>
-    </li>
-    <li><hr></hr></li></ul></div>
-
-
-    <li></li>   
+    <li><hr></hr></li></ul></div>  
 
 
     <!--VISUALIZATION LOCATION-->
@@ -577,6 +575,7 @@
       var numFilesUploaded="<?php echo count($_SESSION['FilesUploaded']);?>";
       var DataTable="";
       var errorUpload="<?php echo $_SESSION['uploadError'];?>";
+      var alreadyShownUpload="<?php echo $_SESSION['alreadyShownUpload'];?>";
 
    if (arr==''){
     var sel='undefined';
@@ -625,11 +624,11 @@
         var selected=document.getElementById("inputType").value;
         if (selected=='no'){
           document.getElementById("fileGFF+FASTA").innerHTML="";
-          document.getElementById("fileOther").innerHTML="<br>Choose one of the supported file formats (.fasta, .gbk, .gff): <input name='moreuploadedfile[]' type='file' class='btn btn-default'/><br>";
+          document.getElementById("fileOther").innerHTML="<br><li class='FontModals'>Choose one of the supported file formats (.fasta, .gbk, .gff): </li><input name='moreuploadedfile[]' type='file' class='btn btn-default btn-lg'/><br>";
         }
         if (selected=='yes'){
           document.getElementById("fileOther").innerHTML="";
-          document.getElementById("fileGFF+FASTA").innerHTML="<br>Choose a GFF file: <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default'/><br>Choose a FASTA file: <input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default'/><br>";
+          document.getElementById("fileGFF+FASTA").innerHTML="<br><li class='FontModals'>Choose a GFF file: </li><input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/><br><li class='FontModals'>Choose a FASTA file: </li><input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br>";
         }
       }
 
@@ -902,23 +901,25 @@ window.onload = function () {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add files to the analysis</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Add files to the analysis</a></h4>
       </div>
       <div class="modal-body">
-                    <form name="uploadFiles" enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST' onsubmit="return validateForm();">
-                           Choose an Option:<select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
-                                     <option value="yes">GFF+Fasta</option>
-                                     <option value="no">Others</option></select>
+                    
+                      <form name="uploadFiles" enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST" onsubmit="return validateForm();">
+                      
+                           <li class="FontModals">Choose an Option:</li><select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
+                                     <option value="yes" class="FontModals">GFF+Fasta</option>
+                                     <option value="no" class="FontModals">Others</option></select>
                           <div id="fileOther"></div>
-                          <div id="fileGFF+FASTA"><br>Choose a .gff file: <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default'/>
-                          <br>Choose a .fasta file: <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default'/><br></div>
-                          <input type="checkbox" name="Iscontig" value="yes">It is a file with contigs data<br>
+                          <div id="fileGFF+FASTA"><br><li class="FontModals">Choose a .gff file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/>
+                          <br><li class="FontModals">Choose a .fasta file:</li> <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br></div>
+                          <input type="checkbox" name="Iscontig" value="yes"><a class="FontModals">&nbsp;It is a file with contigs data</a><br>
                           <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <input type='submit' class='btn btn-primary' value='Upload Files' />
+                          <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                          <input type='submit' class='btn btn-primary btn-lg' value='Upload File' />
                           </div>
                           <input type='hidden' name='addmorefiles' value='addfiles'/>
-                          </form>             
+                          </form>                
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -929,10 +930,10 @@ window.onload = function () {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose files to Remove</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose files to Remove</a></h4>
       </div>
       <div class="modal-body"><div class="table-responsive">
-    <table class="table table-hover" style="text-align:center;"><thead><tr style="background-color:#C5DBDF"><td>Name</td><td>Type&nbsp;of&nbsp;Search</td><td>&nbsp;</td></tr></thead><tbody>
+    <table class="table table-hover" style="text-align:center;"><thead><tr style="background-color:#C5DBDF"><td class='FontModals'>Name</td><td class='FontModals'>Type&nbsp;of&nbsp;Search</td><td>&nbsp;</td></tr></thead><tbody>
 
         <?php
         $num_files= count($path_value);
@@ -947,9 +948,9 @@ window.onload = function () {
                     }
                   }
                   else list($folder1, $folder2, $folder3, $file)=split("/",$path_value[$i]);
-                  echo'<tr><td>'.$file.'</td>';
+                  echo'<tr><td class="FontModals">'.$file.'</td>';
                   echo "<td><form method='post' action = 'lessuploadWithContigs.php'>
-                                <input type='submit' class='btn btn-link' value='Remove'/>
+                                <input type='submit' class='btn btn-link btn-lg' value='Remove'/>
                                 <input type='hidden' name='remove' value='".$i."'/>
                                 <input type='hidden' name='lessfiles' value='lessfiles'/>";
                                                               
@@ -964,7 +965,7 @@ window.onload = function () {
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -975,21 +976,21 @@ window.onload = function () {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose files to Remove</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose a Comparison Method</a></h4>
       </div>
       <div class="modal-body">
         <?php
         
                     echo"<form enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST'>
-                        <input type='submit'  class='btn btn-link' name='bygene' value='Compare Genes By Name With Next Position Genome' />
+                        <input type='submit'  class='btn btn-link btn-lg' name='bygene' value='Compare Regions By Name With Next Position File' />
                         <input type='hidden' name='inter-bygene' value='gene' />";
 
                 if(isset($_POST['exclude_hypothetical'])) echo "<input type='hidden' name='exclude_hypothetical' value='exclude' />";
       
                 echo "</form>";
-                      
-                      echo"  <form enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST'>
-                        <input type='submit' class='btn btn-link' name='byfunction' value='Compare Genes By Function With Next Position Genome' />
+                    
+                     echo"<form enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST'>
+                        <input type='submit' class='btn btn-link btn-lg' name='byfunction' value='Compare Regions By Product With Next Position File' />
                         <input type='hidden' name='inter-byfunction' value='function' />";
                                                                 
        
@@ -1001,7 +1002,7 @@ window.onload = function () {
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1013,25 +1014,25 @@ window.onload = function () {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose an Option</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose an Option</a></h4>
       </div>
       <div class="modal-body">
         <?php
-if($_SESSION['exclude_hypothetical'] == 'yes'){ echo "<form enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST'>
-                                                                <input type='submit' class='btn btn-link' name='hyporemove' value='Add hypothetical proteins to analysis' />
+if($_SESSION['exclude_hypothetical'] =='yes'){ echo "<form enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST'>
+                                                                <input type='submit' class='btn btn-link btn-lg' name='hyporemove' value='Add hypothetical proteins to analysis' />
                                                               <input type='hidden' name='add_hypothetical' value='add' />
                                                                 </form>";
                                                           }
 
                 else { echo "<form enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST'>
-                              <input type='submit' class='btn btn-link' name='hyporemove' value='Remove hypothetical proteins from analysis' />
+                              <input type='submit' class='btn btn-link btn-lg' name='hyporemove' value='Remove hypothetical proteins from analysis' />
                               <input type='hidden' name='exclude_hypothetical' value='exclude' />
                              </form>";
                       }
           ?>
       </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1042,14 +1043,14 @@ if($_SESSION['exclude_hypothetical'] == 'yes'){ echo "<form enctype='multipart/f
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose an Option</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose an Option</a></h4>
       </div>
       <div class="modal-body">
         <?php
 if(isset($_POST['exclude_hypothetical']));
 
                 else {echo "<form enctype='multipart/form-data' action='searchWithContigs.php' method='POST'>
-                            <input type='submit' class='btn btn-link' name='hyoremove' value='Show hypothetical proteins' />
+                            <input type='submit' class='btn btn-link btn-lg' name='hyoremove' value='Show hypothetical proteins' />
                             <input type='hidden' name='show_hypothetical' value='hypothetical' />";
                       
                       if(isset($_POST['align'])){
@@ -1060,7 +1061,7 @@ if(isset($_POST['exclude_hypothetical']));
         ?>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1071,16 +1072,16 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Order contigs</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Order contigs</a></h4>
       </div>
-      <div class="modal-body">NOTE: Only files in .fasta format or .gbk can be used as reference or as query to do the alignments.
+      <div class="modal-body"><li class="FontModals">NOTE: Only files in .fasta format or .gbk can be used as reference or as query to do the alignments.</li>
         <p>
         <?php
         $dir=$_SESSION['folderPath'].'/input_files';
           $files1 = scandir($dir);
           $numFiles=count($path_value);
           echo '<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST" name="AlignForm" onsubmit="return validateFormAlign();">';
-          echo '<label for="reference">Reference:</label><select id="reference" class="form-control" name="referenceGenome">';
+          echo '<label for="reference"><li class="FontModals">Reference:</li></label><select id="reference" class="form-control" name="referenceGenome">';
           for($i=0; $i < $numFiles;$i++){
             $fileName=explode('/',$path_value[$i]);
             if($_SESSION['arrayContigs'][$i]=='no' && (strpos($fileName[3],'fa') !== false || strpos($fileName[3],'fasta') !== false || strpos($fileName[3],'gbk') !== false)) {
@@ -1089,7 +1090,7 @@ if(isset($_POST['exclude_hypothetical']));
           }
           echo '</select>';
 
-          echo '<label for="query">Query:</label><select id="query" class="form-control" name="queryGenome">';
+          echo '<label for="query"><li class="FontModals">Query:</li></label><select id="query" class="form-control" name="queryGenome">';
           for($i=0; $i < $numFiles;$i++){
             $fileName=explode('/',$path_value[$i]);
             if($_SESSION['arrayContigs'][$i]=='yes' && (strpos($fileName[3],'fa') !== false || strpos($fileName[3],'fasta') !== false || strpos($fileName[3],'gbk') !== false)) {
@@ -1097,14 +1098,14 @@ if(isset($_POST['exclude_hypothetical']));
             }
           }
           echo '</select>';
-          echo '<label for="minIde">Minimum Identity:</label><input type="name" class="form-control" id="minIde" name="minidentity" placeholder="0.98">';
-          echo '<label for="minAl">Minimum Alignment:</label><input type="name" class="form-control" id="minAl" name="minAlignment" placeholder="500"><br>';
-          echo '<input type="submit" class="btn btn-primary" name="align-button" value="Run Alignment" />';
+          echo '<label for="minIde"><li class="FontModals">Minimum Identity:</li></label><input type="name" class="form-control" id="minIde" name="minidentity" placeholder="0.98">';
+          echo '<label for="minAl"><li class="FontModals">Minimum Alignment:</li></label><input type="name" class="form-control" id="minAl" name="minAlignment" placeholder="500"><br>';
+          echo '<input type="submit" class="btn btn-primary btn-lg" name="align-button" value="Run Alignment" />';
           echo '</form>';
         ?></p>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1115,13 +1116,13 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Information Table</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Information Table</a></h4>
       </div>
       <div class="modal-body">
         <table class="display dataTable" id="InfoTable" oncontextmenu="return false;"></table>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1132,15 +1133,15 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose an Option</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose an Option</a></h4>
       </div>
       <div class="modal-body">
-        <button class="btn btn-primary" id="save_as_svg" value="">Export as SVG</button>
-        <button class="btn btn-primary" id="save_as_pdf" value="">Export as PDF</button>
-        <button class="btn btn-primary" id="save_as_png" value="">Export as High-Res PNG</button>
+        <button class="btn btn-primary btn-lg" id="save_as_svg" value="">Export as SVG</button>
+        <button class="btn btn-primary btn-lg" id="save_as_pdf" value="">Export as PDF</button>
+        <button class="btn btn-primary btn-lg" id="save_as_png" value="">Export as High-Res PNG</button>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1151,32 +1152,31 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose a file position to Export</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose a file position to Export</a></h4>
       </div>
-      <div class="modal-body">Choose a position to Export.<br>NOTE: Only anotated regions will be part of the exported files.
+      <div class="modal-body"><a class="FontModals">Choose a position to Export.<br>NOTE: Only anotated regions will be part of the exported files.</a>
         <p>
         <?php
         $dir=$_SESSION['folderPath'].'/input_files';
           $files1 = scandir($dir);
           $numFiles=count($_SESSION['array_path[]']);
-          echo '<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">';
-          echo 'Position:<select class="form-control" name="exportGenome">';
+          echo '<form enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST">';
+          echo '<li><a class="FontModals">Position:</a></li><select class="form-control" name="exportGenome">';
           for($i=0; $i < $numFiles;$i++){
               $filenumber=$i+1;
               echo' <option value="'.$filenumber.'...'.$_SESSION['array_path[]'][$i].'">'.$filenumber.'</option>';
-
           }
           echo '</select>';
 
-          echo 'Export Type:<select class="form-control" name="ExportType">';
+          echo '<li><a class="FontModals">Export type:</a></li><select class="form-control" name="ExportType">';
           echo' <option value="gff">gff + fasta</option>';
-          echo '</select>';
-          echo '<input type="submit" class="btn btn-primary" name="align-button" value="Export File" />';
+          echo '</select><p>&nbsp</p>';
+          echo '<input type="submit" class="btn btn-primary btn-lg" name="align-button" value="Export File" />';
           echo '</form>';
         ?></p>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1187,25 +1187,26 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Download your files here</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Download your files here</a></h4>
       </div>
       <div class="modal-body">
         <?php
-        if($moreContigs=='yes') echo "Only contigs with annotations were exported. To export the others, annotate those regions.<br>";
-          echo "Choose the files to download:";
+        if($moreContigs=='yes') echo "<li><a class='FontModals'>Only contigs with annotations were exported. To export the others, annotate those regions.<br></a></li>";
+          echo "<li><a class='FontModals'>Choose the files to download:</a></li>";
+
         if ($Contigexp=='yes'){
-          echo '<li><a href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta">Download the .fasta file</a></li>';
-          echo '<li><a href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff">Download the .gff file</a></li>';
+          echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta">Download the .fasta file</a></li>';
+          echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff">Download the .gff file</a></li>';
         }
         else{
-        if (strlen($RegionsToExport)>0 && $moreContigs=='yes') echo '<li><a href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta">Download the .fasta file</a></li>';
-        else echo '<li><a href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_new.fasta">Download the .fasta file</a></li>';
-        echo '<li><a href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff">Download the .gff file</a></li>';
-      }
+        if (strlen($RegionsToExport)>0 && $moreContigs=='yes') echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta">Download the .fasta file</a></li>';
+        else echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_new.fasta">Download the .fasta file</a></li>';
+        echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff">Download the .gff file</a></li>';
+        }
         ?>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1216,17 +1217,17 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">See your sequence</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">See your sequence</a></h4>
       </div>
-      <div class="modal-body">See the sequence here:
+      <div class="modal-body">
         <?php
         $partsG = explode("...", $queryGene);
         $part = str_replace("---", "_", $partsG[1]);
-        echo '<li><a href="uploads/'.$wherePath.'/Sequence_files/'.$part.'_sequence.fasta">Download the sequence file</a></li>';
+        echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Sequence_files/'.$part.'_sequence.fasta">Download the sequence file</a></li>';
         ?>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1237,12 +1238,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">Please choose a file to upload.<br>You only can upload one of the supported files. (.fasta, .gbk, .gff)
+      <div class="modal-body"><li><a class='FontModals'>Please choose a file to upload.<br>You only can upload one of the supported files. (.fasta, .gbk, .gff)</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1253,12 +1254,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">Only files with information on sequences can be used with BLAST. <br>GFF files do not have sequence information.
+      <div class="modal-body"><li><a class='FontModals'>Only files with information on sequences can be used with BLAST. <br>GFF files do not have sequence information.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1269,12 +1270,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">An undefined value was used for Minimum Identity or Minimum Alignment. Choose a value between 0 and 1 for Minimum Identity and bigger that 0 for Minimum Alignment.
+      <div class="modal-body"><li><a class='FontModals'>An undefined value was used for Minimum Identity or Minimum Alignment. Choose a value between 0 and 1 for Minimum Identity and bigger that 0 for Minimum Alignment.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1285,12 +1286,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose valid parameters</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose valid parameters</a></h4>
       </div>
-      <div class="modal-body">An undefined value was used for E-value or Minimum Alignment. Choose a value bigger than 0 for E-value and Minimum Alignment.
+      <div class="modal-body"><li><a class='FontModals'>An undefined value was used for E-value or Minimum Alignment. Choose a value bigger than 0 for E-value and Minimum Alignment.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1301,12 +1302,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose different Files</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose different Files</a></h4>
       </div>
-      <div class="modal-body">Please choose different files to work as reference and as query.
+      <div class="modal-body"><li><a class='FontModals'>Please choose different files to work as reference and as query.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1317,12 +1318,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">Please type a valid term on the searchbox.
+      <div class="modal-body"><li><a class='FontModals'>Please type a valid term on the searchbox.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1333,12 +1334,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">For the option GFF + FASTA, you need to upload a sequence file (.fasta) and an annotation file (.gff) at the same time.
+      <div class="modal-body"><li><a class='FontModals'>For the option GFF + FASTA, you need to upload a sequence file (.fasta) and an annotation file (.gff) at the same time.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1350,12 +1351,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">There was an error when uploading the file.
+      <div class="modal-body"><li><a class='FontModals'>There was an error when uploading the file.</a></li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1366,7 +1367,7 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Upload Complete</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Upload Complete</a></h4>
       </div>
       <div class="modal-body">
         <?php
@@ -1375,7 +1376,7 @@ if(isset($_POST['exclude_hypothetical']));
 
           for($i=0; $i < $numFiles;$i++){
               $filenumber=$i+1;
-              echo "<td>The file ".$_SESSION['FilesUploaded'][$i]." has been uploaded."."<br>";
+              echo "<li><a class='FontModals'>The file ".$_SESSION['FilesUploaded'][$i]." has been uploaded."."</a></li>";
           }
 
           if ($_SESSION['headerMoreUpload']!='yes'){
@@ -1387,7 +1388,7 @@ if(isset($_POST['exclude_hypothetical']));
         ?>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1398,11 +1399,11 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Statistics</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Statistics</a></h4>
       </div>
       <div class="modal-body" id="modalDashBody">
         <form id="statFile" name="statFile">
-        <label for="selectStat">Select an option to visualize the statistics</label>
+        <label for="selectStat" class='FontModals'>Select an option to visualize the statistics</label>
       <select class="form-control" id="selectStat"> 
         <?php
         $numFiles=count($path_value);
@@ -1413,7 +1414,7 @@ if(isset($_POST['exclude_hypothetical']));
             echo '<option value="all">All Files</option>';
         ?>
 </select><br>
-      <input class='btn btn-primary' value='Check Statistics' onclick="dash()"/></form>
+      <input class='btn btn-primary btn-lg' value='Check Statistics' onclick="dash()"/></form>
         <div class="modal-footer">
         </div>
     </div>
@@ -1426,11 +1427,11 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Statistics</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Statistics</a></h4>
       </div>
       <div class="modal-body" id="modalDashBody1">
         <form id="statFile1" name="statFile1">
-        <label for="selectStat">Select an option to visualize the statistics</label>
+        <label for="selectStat" class='FontModals'>Select an option to visualize the statistics</label>
       <select class="form-control" id="selectStat"> 
         <?php
         $numFiles=count($path_value);
@@ -1441,8 +1442,8 @@ if(isset($_POST['exclude_hypothetical']));
             echo '<option value="all">All Files</option>';
         ?>
 </select><br>
-<input class='btn btn-primary' value='Check Statistics' onclick="dash()"/></form><div id="nameGenome"></div>
-      <div id="dashSpot"><table id="dash"><tbody><tr><td><label for="histo">Histogram of Sizes</label><div id="histo"></div></td></tr><tr><td><label for="pieChart">Pie Chart of Products</label><div id="pieChart"></div></td></tr></tbody></table></div>
+<input class='btn btn-primary btn-lg' value='Check Statistics' onclick="dash()"/></form><div id="nameGenome"></div>
+      <div id="dashSpot"><table id="dash"><tbody><tr><td><label for="histo" class='FontModals'>Histogram of Sizes</label><div id="histo"></div></td></tr><tr><td><label for="pieChart" class='FontModals'>Pie Chart of Products</label><div id="pieChart"></div></td></tr></tbody></table></div>
         <div id="legendSpot"><table class="display dataTable" id="legend"><thead><tr><th>Colour</th><th>Function</th><th>Counts</th><th>Frequency</th></tr></thead></table></div>
         <div class="modal-footer">
         </div>
@@ -1451,17 +1452,17 @@ if(isset($_POST['exclude_hypothetical']));
 </div>
 </div>
 
-<div class="modal fade" id="myModalAllUndefined" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModalAllUndefined" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Statistics</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Statistics</a></h4>
       </div>
       <div class="modal-body">
-        <h5> All Gene Products in this file are Undefined.</h5>
+        <h5> <li><a class='FontModals'>All Gene Products in this file are Undefined.</a></li></h5>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -1473,12 +1474,12 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Choose an identifier and a sequence</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose an identifier and a sequence</a></h4>
       </div>
       <div class="modal-body">
-        <h5> Please type a nucleotide sequence and a name to identify it.</h5>
+        <h5> <li><a class='FontModals'>Please type a nucleotide sequence and a name to identify it.</a></li></h5>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-toggle="modal" onclick="openModals()">OK</button>
+          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" onclick="openModals()">OK</button>
         </div>
     </div>
   </div>
@@ -1490,16 +1491,16 @@ if(isset($_POST['exclude_hypothetical']));
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Search By Sequence</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Search By Sequence</a></h4>
       </div>
       <div class="modal-body">
         <form  id="formBLAST" enctype="multipart/form-data" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST()">
-        <label for="insertSequence">Insert a Sequence:</label><div id="insertSequence"><input type="text" name="SeqToSearch" class="form-control" placeholder="Sequence"></div>
-        <label for="identifier">Identifier:</label><input type="name" class="form-control" id="identifierS" name="identifierS" placeholder="Type a name to identify the sequence"><br>
+        <label for="insertSequence"><li><a class='FontModals'>Insert a Sequence:</a></li></label><div id="insertSequence"><input type="text" name="SeqToSearch" class="form-control" placeholder="Sequence"></div>
+        <label for="identifier"><li><a class='FontModals'>Identifier:</a></li></label><input type="name" class="form-control" id="identifierS" name="identifierS" placeholder="Type a name to identify the sequence"><br>
         <br>
         <?php
           $numFiles=count($_SESSION['array_path[]']);
-          echo '<label for="GenomeToSearch">Choose a File To Search:</label><select class="form-control" name="GenomeToSearch">';
+          echo '<label for="GenomeToSearch"><li><a class="FontModals">Choose a File To Search:</a></li></label><select class="form-control" name="GenomeToSearch">';
           for($i=0; $i < $numFiles;$i++){
               $fileName=explode('/',$_SESSION['array_path[]'][$i]);
               $filenumber=$i+1;
@@ -1507,10 +1508,10 @@ if(isset($_POST['exclude_hypothetical']));
           }
           echo '</select>';
         ?>
-        <label for="edit_EvalueS">E-value:</label><input type="name" class="form-control" id="edit_EvalueS" name="edit_EvalueS" placeholder="0.001">
-        <label for="edit_MinAlignS">Miminum Alignment:</label><input type="name" class="form-control" id="edit_MinAlignS" name="edit_MinAlignS" placeholder="300">
+        <label for="edit_EvalueS"><li><a class='FontModals'>E-value:</a></li></label><input type="name" class="form-control" id="edit_EvalueS" name="edit_EvalueS" placeholder="0.001">
+        <label for="edit_MinAlignS"><li><a class='FontModals'>Miminum Alignment:</a></li></label><input type="name" class="form-control" id="edit_MinAlignS" name="edit_MinAlignS" placeholder="300">
         <br>
-        <input type="submit" class="btn btn-primary" name="align-button" value="Search" />
+        <input type="submit" class="btn btn-primary btn-lg" name="align-button" value="Search" />
         <input type="hidden" name="SearchForSequence" value="SearchForSequence"/>
         </form>
     </div>

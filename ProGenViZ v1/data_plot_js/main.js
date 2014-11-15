@@ -6,8 +6,8 @@
   var get_info  = function(data_set, format) {
 
     var degree  = Math.PI / 180,
-        x_max   = $(window).width()-300,  x_off   = x_max * 0.5,
-        y_max   = $(window).height() - 100,    y_off   = y_max * 0.5;
+        x_max   = $(window).width()-($(window).width() * 0.14),  x_off   = x_max * 0.5,
+        y_max   = $(window).height() - ($(window).height() * 0.09),    y_off   = y_max * 0.5;
 
     if (format === 'conv') {  // "conventional"
       var a_off   =   20,

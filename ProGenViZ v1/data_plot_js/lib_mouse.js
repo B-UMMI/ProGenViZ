@@ -207,12 +207,12 @@ var setup_mouse = function(plot_info) {
 
     var html_ib   = on_mouseover_h('ib', sources);
     var html_im   = on_mouseover_h('im', targets);
-    var html      = '<span class="mo">' + '<h4><p>Name:&nbsp;&nbsp;' + orig_node.node.name + '</p></h4>' + '</span>'
-                  + '<span class="mo">' + '<p>File Position:&nbsp;&nbsp;' + orig_node.node.genome + '</p>' + '</span>'
-                  + '<span class="mo">' + '<p>File Name:&nbsp;&nbsp;' + this.getAttribute("file") + '</p>' + '</span>'
-                  + '<span class="mo">' + '<p>Region Name:&nbsp;&nbsp;' + Toshow + '</p>' + '</span>' + '<span class="mo">' + '<p>Region Product:&nbsp;&nbsp;' + orig_node.node.product + '</p>' + '</span>'
-                  + '<span class="mo">' + '<p>Begin:&nbsp;&nbsp;' + orig_node.node.begin + '</p>' + '</span>'
-                  + '<span class="mo">' + '<p>End:&nbsp;&nbsp;' + orig_node.node.end + '</p>' + '</span>' + html_ib + html_im;
+    var html      = '<span class="mo">' + '<p class="FontMouse">Name:&nbsp;&nbsp;' + orig_node.node.name + '</p>' + '</span>'
+                  + '<span class="mo">' + '<p class="FontMouse">File Position:&nbsp;&nbsp;' + orig_node.node.genome + '</p>' + '</span>'
+                  + '<span class="mo">' + '<p class="FontMouse">File Name:&nbsp;&nbsp;' + this.getAttribute("file") + '</p>' + '</span>'
+                  + '<span class="mo">' + '<p class="FontMouse">Region Name:&nbsp;&nbsp;' + Toshow + '</p>' + '</span>' + '<span class="mo">' + '<p class="FontMouse">Region Product:&nbsp;&nbsp;' + orig_node.node.product + '</p>' + '</span>'
+                  + '<span class="mo">' + '<p class="FontMouse">Begin:&nbsp;&nbsp;' + orig_node.node.begin + '</p>' + '</span>'
+                  + '<span class="mo">' + '<p class="FontMouse">End:&nbsp;&nbsp;' + orig_node.node.end + '</p>' + '</span>' + html_ib + html_im;
 
     notes.html(html);
 

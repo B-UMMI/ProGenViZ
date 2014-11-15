@@ -27,7 +27,7 @@ if(ModalSequence == 'yes'){
         });
 }*/
 
-if(numFilesUploaded>0 && errorUpload == 'no'){
+if(numFilesUploaded>0 && errorUpload == 'no' && alreadyShownUpload=='no'){
             $(window).load(function(){
               $('#myModalFiles').modal('show');
         });
@@ -412,18 +412,18 @@ row=header.insertRow(0);
 for (var y=0;y<11;y++){
   cell=row.insertCell(y);
   cell.style.textAlign = 'center';
-  if(y==0)cell.innerHTML='<h5>File Name</h5>';
-  if(y==1)cell.innerHTML='<h5>Genome Position</h5>';
-  if(y==2)cell.innerHTML='<h5>Name</h5>';
-  if(y==3)cell.innerHTML='<h5>Total Size</h5>';
-  if(y==4)cell.innerHTML='<h5>Annotated Portion</h5>';
-  if(y==5)cell.innerHTML='<h5>File Type</h5>';
-  if(y==6)cell.innerHTML='<h5>Number of Annotations</h5>';
-  if(y==7)cell.innerHTML='<h5>Number of Transposases</h5>';
-  if(y==8)cell.innerHTML='<h5>Number of IS</h5>';
-  if(y==9)cell.innerHTML='<h5>% of Hypothetical Proteins</h5>';
+  if(y==0)cell.innerHTML='<h5 class="FontTitleTables">File Name</h5>';
+  if(y==1)cell.innerHTML='<h5 class="FontTitleTables">Genome Position</h5>';
+  if(y==2)cell.innerHTML='<h5 class="FontTitleTables">Name</h5>';
+  if(y==3)cell.innerHTML='<h5 class="FontTitleTables">Total Size</h5>';
+  if(y==4)cell.innerHTML='<h5 class="FontTitleTables">Annotated Portion</h5>';
+  if(y==5)cell.innerHTML='<h5 class="FontTitleTables">File Type</h5>';
+  if(y==6)cell.innerHTML='<h5 class="FontTitleTables">Number of Annotations</h5>';
+  if(y==7)cell.innerHTML='<h5 class="FontTitleTables">Number of Transposases</h5>';
+  if(y==8)cell.innerHTML='<h5 class="FontTitleTables">Number of IS</h5>';
+  if(y==9)cell.innerHTML='<h5 class="FontTitleTables">% of Hypothetical Proteins</h5>';
   if (moreContigs2=='yes'){
-    if(y==10)cell.innerHTML='<h5>Number Of Contigs</h5>';
+    if(y==10)cell.innerHTML='<h5 class="FontTitleTables">Number Of Contigs</h5>';
   }
 }
 
@@ -434,50 +434,50 @@ for(var i=0; i<lengthinfoarray; i++){
     cell=row.insertCell(j);
     cell.style.textAlign = 'center';
     if(j==0){
-      if (InfoArray[i].fileName != "NaN")cell.innerHTML=InfoArray[i].fileName;
+      if (InfoArray[i].fileName != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].fileName+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==1){
-      if (InfoArray[i].genome != "NaN")cell.innerHTML=InfoArray[i].genome;
+      if (InfoArray[i].genome != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].genome+'</h5>';
       else cell.innerHTML='-';
     }
-    if(j==2)cell.innerHTML=InfoArray[i].name;
+    if(j==2)cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].name+'</h5>';
     if(j==3){
       if (InfoArray[i].genomeSize != "NaN"){
-        if (InfoArray[i].genomeSize=="undefined") cell.innerHTML=InfoArray[i].genomeSize;
-        else cell.innerHTML=InfoArray[i].genomeSize+" bp";
+        if (InfoArray[i].genomeSize=="undefined") cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].genomeSize+'</h5>';
+        else cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].genomeSize+" bp"+'</h5>';
       }
       else cell.innerHTML='-';
     }
     if(j==4){
       if (InfoArray[i].AnnotatedG != "NaN"){
-        if (InfoArray[i].AnnotatedG=="undefined") cell.innerHTML=cell.innerHTML=InfoArray[i].AnnotatedG + " bp";
-        else cell.innerHTML=InfoArray[i].AnnotatedG + " bp  (" + parseFloat((parseFloat(InfoArray[i].AnnotatedG)/parseFloat(InfoArray[i].genomeSize))*100).toFixed(2) + "%)";
+        if (InfoArray[i].AnnotatedG=="undefined") cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].AnnotatedG + " bp"+'</h5>';
+        else cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].AnnotatedG + " bp  (" + parseFloat((parseFloat(InfoArray[i].AnnotatedG)/parseFloat(InfoArray[i].genomeSize))*100).toFixed(2) + "%)"+'</h5>';
       }
       else cell.innerHTML='-';
     }
     if(j==5){
-      if (InfoArray[i].fileType != "NaN")cell.innerHTML=InfoArray[i].fileType;
+      if (InfoArray[i].fileType != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].fileType+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==6){
-      if (InfoArray[i].NumberofGenes != "NaN")cell.innerHTML=InfoArray[i].NumberofGenes;
+      if (InfoArray[i].NumberofGenes != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].NumberofGenes+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==7){
-      if (InfoArray[i].transposaseCount != "NaN")cell.innerHTML=InfoArray[i].transposaseCount;
+      if (InfoArray[i].transposaseCount != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].transposaseCount+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==8){
-      if (InfoArray[i].IScount != "NaN")cell.innerHTML=InfoArray[i].IScount;
+      if (InfoArray[i].IScount != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].IScount+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==9){
-      if (InfoArray[i].hypotheticals != "NaN")cell.innerHTML=InfoArray[i].hypotheticals + "%";
+      if (InfoArray[i].hypotheticals != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].hypotheticals + "%"+'</h5>';
       else cell.innerHTML='-';
     }
     if (moreContigs2=='yes'){
-      if(j==10)cell.innerHTML=InfoArray[i].numberOfcontigs;
+      if(j==10)cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].numberOfcontigs+'</h5>';
     }
   }
 }
@@ -749,7 +749,7 @@ $(function () {
                                     '<form enctype="multipart/form-data" id="formBLAST1" name="formBLAST1" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST1();">'+
                                       '<div class="modal-header">'+
                                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                                        '<h4 class="modal-title" id="myModalLabel">Choose the E-value and Minimum Alignment</h4>'+
+                                        '<h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose the E-value and Minimum Alignment</a></h4>'+
                                       '</div>'+
                                       '<div class="modal-body">'+
                                         '<div class="form-group">';
@@ -757,16 +757,16 @@ $(function () {
           else insertdrop+='<input type="hidden" name="refgenome" value="'+String(parseInt(positionOfThis) + 1 )+'" />';
 
                               insertdrop+='<input type="hidden" name="rundatabasesearch" value="rundatabasesearch" />'+
-                                          '<label for="edit_Evalue">E-value:</label><input type="name" class="form-control" id="edit_Evalue" name="edit_Evalue" placeholder="0.001">'+
-                                          '<label for="edit_Align">Miminum Alignment:</label><input type="name" class="form-control" id="edit_Align" name="edit_Align" placeholder="300">'+
+                                          '<label for="edit_Evalue"><li class="FontModals">E-value:</li></label><input type="name" class="form-control" id="edit_Evalue" name="edit_Evalue" placeholder="0.001">'+
+                                          '<label for="edit_Align"><li class="FontModals">Miminum Alignment:</li></label><input type="name" class="form-control" id="edit_Align" name="edit_Align" placeholder="300">'+
                                           '<input type="hidden" name="querygene" value="'+presentGene+'" />'+
                                           '<input type="hidden" name="geneBegin" value="'+geneBegin+'">'+
                                           '<input type="hidden" name="geneEnd" value="'+geneEnd+'">'+
                                           '<input type="hidden" name="geneReference" value="'+geneReference+'">'+
                                         '</div>'+
                                      '</div><div class="modal-footer">'+
-                                      '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                      '<button type="submit" class="btn btn-primary" name="CheckSimilarity">Check Similarity</button></div></div></div></div></form>'+
+                                      '<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>'+
+                                      '<button type="submit" class="btn btn-primary btn-lg" name="CheckSimilarity">Check Similarity</button></div></div></div></div></form>'+
                                     '<button href="#" data-toggle="modal" data-target="#myModalsequenceParameters" class="btn btn-link">BLAST ' + geneToUse + ' against next position sequences.</button>';
           }
 
@@ -790,23 +790,23 @@ $(function () {
                                     '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                       '<div class="modal-header">'+
                                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                                        '<h4 class="modal-title" id="myModalLabel">Edit Information</h4>'+
+                                        '<h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Edit Information</a></h4>'+
                                       '</div>'+
                                       '<div class="modal-body">'+
                                         '<div class="form-group">'+
-                                          '<label for="GeneName">Gene Name</label>'+
+                                          '<label for="GeneName"><li class="FontModals">Gene Name</li></label>'+
                                           '<input type="name" class="form-control" id="GeneName" name="EditName" placeholder="'+Pgene+'">'+
                                           '<input type="hidden" name="OriginalName" value="'+presentGene+'">'+
                                           '<input type="hidden" name="geneBegin" value="'+geneBegin+'">'+
                                           '<input type="hidden" name="geneEnd" value="'+geneEnd+'">'+
                                         '</div>'+
                                       '<div class="form-group">'+
-                                        '<label for="GeneProduct">Gene Product</label>'+
+                                        '<label for="GeneProduct"><li class="FontModals">Gene Product</li></label>'+
                                         '<input type="name" class="form-control" id="GeneProduct" name="EditProduct" placeholder="'+geneProduct+'">'+
                                         '<input type="hidden" name="OriginalProduct" value="'+geneProduct+'">'+
                                       '</div></div><div class="modal-footer">'+
-                                      '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                      '<button type="submit" class="btn btn-primary" name="EditInformation">Save</button></div></div></div></div></form>'+
+                                      '<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>'+
+                                      '<button type="submit" class="btn btn-primary btn-lg" name="EditInformation">Save</button></div></div></div></div></form>'+
                                     '<button href="#" data-toggle="modal" data-target="#myModaledit_info" class="btn btn-link">Edit Information</button>';
           insertdrop += '</ul>';                 
           $contextMenu.append(insertdrop);

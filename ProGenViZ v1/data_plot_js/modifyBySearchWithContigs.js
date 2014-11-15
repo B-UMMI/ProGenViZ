@@ -43,7 +43,7 @@ if(ModalSNP == 'yes'){
 }
 
 
-if(isSearchMade == 'yes' && numFilesAfterSearch>0 && errorUpload == 'no'){
+if(isSearchMade == 'yes' && numFilesAfterSearch>0 && errorUpload == 'no' && alreadyShownUpload=='no'){
             $(window).load(function(){
               $('#myModalFiles').modal('show');
         });
@@ -433,24 +433,15 @@ for (j in search_array){
   } 
 }
 
-var checkMoreContigs=function(){
+var checkMoreContigs=function(d){
   arrayMorecontigs=new Array();
   for (i in g.nodesByType){
-    firstcontig='1';
-    morecontigs='no';
-    for (j in g.nodesByType[i].values){
-      if (g.nodesByType[i].values[j].contig!=firstcontig){
-       arrayMorecontigs[g.nodesByType[i].values[j].type]='yes';
-       morecontigs='yes';
-       break
-      }
-    if (morecontigs=='no') arrayMorecontigs[g.nodesByType[i].values[j].type]='no';
+    if (g.nodesByType[i].key==d){
+      return g.nodesByType[i].moreContigs;
+    }
   }
 }
-return arrayMorecontigs;
-}
 
-var arrayofCheckcontigs= checkMoreContigs();
 
 
 var numtotalNodes=function(){
@@ -485,7 +476,7 @@ var prevElipse="";
       .attr('geneEnd',function(d){return d.end;})
       .attr('reference',function(d){return d.reference;})
       .attr('contig',function(d){return d.contig;})
-      .attr('moreContigs',function(d){return arrayofCheckcontigs[d.type];})
+      .attr('moreContigs',function(d){return checkMoreContigs(d.type);})
       .attr('id', idNode)
       .attr('file', function(d){
                                 fPos=parseInt(d.genome)-1;
@@ -550,14 +541,16 @@ var prevElipse="";
                                                                 }
 
                                           } 
-                                          return retorno;}
+                                          return retorno;
+                                        }
                                       }
                                       else {
                                             if (d.gene.indexOf('Undefined_Region') > -1) var color='black';
                                             else var color = fill(d);
                                             var backup = 'fill:'+color;
                                             document.getElementById((counts).toString()).setAttribute("backupColor",backup);
-                                            return color;};
+                                            return color;
+                                          };
                                       })
       .selectAll('ellipse')
       .data(connectors)
@@ -836,12 +829,14 @@ if((searchBysequence=='yes' && searchNCBI!='yes')|| editInfo=='yes'){
       seqSub1=seqSub[k].split("...");
       seqQuery1=seqQuery[k].split("...");
       seqmatch1=seqmatch[k].split("...");
+      prevTarget="";
       for(var i=0;i<g.links.length;i++){
         if (exclude_hypothetical=='yes' && (g.links[i].target.node.product.indexOf('hypothetical protein') > -1 || g.links[i].source.node.product.indexOf('hypothetical protein') > -1));
         else{
         for (j in lengthAlignments1){ 
-          if (g.links[i].target.node.gene==search_array[k][j] ){
+          if (g.links[i].target.node.gene==search_array[k][j] && g.links[i].target.node.gene!=prevTarget){
             HitsArraySequence.push({source: g.links[i].source.node , hit : g.links[i].target.node , typesearch : 'BLAST' , numRelations : '-' , positionSource : g.links[i].source.node.indexGeral , positionTarget : g.links[i].target.node.indexGeral , lengthAlignment : lengthAlignments1[j] , alignmentStart : alignmentPositionStart[j] , alignmentScore : alignScore1[j] , referenceStart : refStart1[j] , subjectEnd : subEnd1[j], sequenceSubject: seqSub1[j], sequenceQuery: seqQuery1[j], sequenceMatch: seqmatch1[j]}); 
+            prevTarget=g.links[i].target.node.gene;
           }
         }
       }
@@ -859,16 +854,16 @@ row=header.insertRow(0);
 for (var y=0;y<11;y++){
   cell=row.insertCell(y);
   cell.style.textAlign = 'center';
-  if(y==0)cell.innerHTML='<h5>File Name</h5>';
-  if(y==1)cell.innerHTML='<h5>Genome Position</h5>';
-  if(y==2)cell.innerHTML='<h5>Name</h5>';
-  if(y==3)cell.innerHTML='<h5>Total Size</h5>';
-  if(y==4)cell.innerHTML='<h5>Annotated Portion</h5>';
-  if(y==5)cell.innerHTML='<h5>File Type</h5>';
-  if(y==6)cell.innerHTML='<h5>Number of Annotations</h5>';
-  if(y==7)cell.innerHTML='<h5>Number of Transposases</h5>';
-  if(y==8)cell.innerHTML='<h5>Number of IS</h5>';
-  if(y==9)cell.innerHTML='<h5>% of Hypothetical Proteins</h5>';
+  if(y==0)cell.innerHTML='<h5 class="FontTitleTables">File Name</h5>';
+  if(y==1)cell.innerHTML='<h5 class="FontTitleTables">Genome Position</h5>';
+  if(y==2)cell.innerHTML='<h5 class="FontTitleTables">Name</h5>';
+  if(y==3)cell.innerHTML='<h5 class="FontTitleTables">Total Size</h5>';
+  if(y==4)cell.innerHTML='<h5 class="FontTitleTables">Annotated Portion</h5>';
+  if(y==5)cell.innerHTML='<h5 class="FontTitleTables">File Type</h5>';
+  if(y==6)cell.innerHTML='<h5 class="FontTitleTables">Number of Annotations</h5>';
+  if(y==7)cell.innerHTML='<h5 class="FontTitleTables">Number of Transposases</h5>';
+  if(y==8)cell.innerHTML='<h5 class="FontTitleTables">Number of IS</h5>';
+  if(y==9)cell.innerHTML='<h5 class="FontTitleTables">% of Hypothetical Proteins</h5>';
   if (moreContigs2=='yes'){
     if(y==10)cell.innerHTML='<h5>Number Of Contigs</h5>';
   }
@@ -881,50 +876,50 @@ for(var i=0; i<lengthinfoarray; i++){
     cell=row.insertCell(j);
     cell.style.textAlign = 'center';
     if(j==0){
-      if (InfoArray[i].fileName != "NaN")cell.innerHTML=InfoArray[i].fileName;
+      if (InfoArray[i].fileName != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].fileName+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==1){
-      if (InfoArray[i].genome != "NaN")cell.innerHTML=InfoArray[i].genome;
+      if (InfoArray[i].genome != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].genome+'</h5>';
       else cell.innerHTML='-';
     }
-    if(j==2)cell.innerHTML=InfoArray[i].name;
+    if(j==2)cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].name+'</h5>';
     if(j==3){
       if (InfoArray[i].genomeSize != "NaN"){
-        if (InfoArray[i].genomeSize=="undefined") cell.innerHTML=InfoArray[i].genomeSize;
-        else cell.innerHTML=InfoArray[i].genomeSize+" bp";
+        if (InfoArray[i].genomeSize=="undefined") cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].genomeSize+'</h5>';
+        else cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].genomeSize+" bp"+'</h5>';
       }
       else cell.innerHTML='-';
     }
     if(j==4){
       if (InfoArray[i].AnnotatedG != "NaN"){
-        if (InfoArray[i].AnnotatedG=="undefined") cell.innerHTML=cell.innerHTML=InfoArray[i].AnnotatedG + " bp";
-        else cell.innerHTML=InfoArray[i].AnnotatedG + " bp  (" + parseFloat((parseFloat(InfoArray[i].AnnotatedG)/parseFloat(InfoArray[i].genomeSize))*100).toFixed(2) + "%)";
+        if (InfoArray[i].AnnotatedG=="undefined") cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].AnnotatedG + " bp"+'</h5>';
+        else cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].AnnotatedG + " bp  (" + parseFloat((parseFloat(InfoArray[i].AnnotatedG)/parseFloat(InfoArray[i].genomeSize))*100).toFixed(2) + "%)"+'</h5>';
       }
       else cell.innerHTML='-';
     }
     if(j==5){
-      if (InfoArray[i].fileType != "NaN")cell.innerHTML=InfoArray[i].fileType;
+      if (InfoArray[i].fileType != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].fileType+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==6){
-      if (InfoArray[i].NumberofGenes != "NaN")cell.innerHTML=InfoArray[i].NumberofGenes;
+      if (InfoArray[i].NumberofGenes != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].NumberofGenes+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==7){
-      if (InfoArray[i].transposaseCount != "NaN")cell.innerHTML=InfoArray[i].transposaseCount;
+      if (InfoArray[i].transposaseCount != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].transposaseCount+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==8){
-      if (InfoArray[i].IScount != "NaN")cell.innerHTML=InfoArray[i].IScount;
+      if (InfoArray[i].IScount != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].IScount+'</h5>';
       else cell.innerHTML='-';
     }
     if(j==9){
-      if (InfoArray[i].hypotheticals != "NaN")cell.innerHTML=InfoArray[i].hypotheticals + "%";
+      if (InfoArray[i].hypotheticals != "NaN")cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].hypotheticals + "%"+'</h5>';
       else cell.innerHTML='-';
     }
     if (moreContigs2=='yes'){
-      if(j==10)cell.innerHTML=InfoArray[i].numberOfcontigs;
+      if(j==10)cell.innerHTML='<h5 class="FontTables">'+InfoArray[i].numberOfcontigs+'</h5>';
     }
   }
 }
@@ -940,19 +935,19 @@ for (var y=0;y<13;y++){
   th=document.createElement("th");
   cell=row.appendChild(th);
   cell.style.textAlign = 'center';
-  if(y==0)cell.innerHTML='<h5>#</h5>';
-  if(y==1)cell.innerHTML='<h5>Type Search</h5>';
-  if(y==2)cell.innerHTML='<h5>Query Gene</h5>';
-  if(y==3)cell.innerHTML='<h5>Target Gene</h5>';
-  if(y==4)cell.innerHTML='<h5>Product</h5>';
-  if(y==5)cell.innerHTML='<h5>Genome of Target</h5>';
-  if(y==6)cell.innerHTML='<h5>Target Alignment Begin</h5>';
-  if(y==7)cell.innerHTML='<h5>Target Alignment End</h5>';
-  if(y==8)cell.innerHTML='<h5>Query Alignment Begin</h5>';
-  if(y==9)cell.innerHTML='<h5>Query Alignment End</h5>';
-  if(y==10)cell.innerHTML='<h5>Alignment Score</h5>';
-  if(y==11)cell.innerHTML='<h5>Strand of Query</h5>';
-  if(y==12)cell.innerHTML='<h5>Strand of Target</h5>';
+  if(y==0)cell.innerHTML='<h5 class="FontTitleTables">#</h5>';
+  if(y==1)cell.innerHTML='<h5 class="FontTitleTables">Type Search</h5>';
+  if(y==2)cell.innerHTML='<h5 class="FontTitleTables">Query Gene</h5>';
+  if(y==3)cell.innerHTML='<h5 class="FontTitleTables">Target Gene</h5>';
+  if(y==4)cell.innerHTML='<h5 class="FontTitleTables">Product</h5>';
+  if(y==5)cell.innerHTML='<h5 class="FontTitleTables">Genome of Target</h5>';
+  if(y==6)cell.innerHTML='<h5 class="FontTitleTables">Target Alignment Begin</h5>';
+  if(y==7)cell.innerHTML='<h5 class="FontTitleTables">Target Alignment End</h5>';
+  if(y==8)cell.innerHTML='<h5 class="FontTitleTables">Query Alignment Begin</h5>';
+  if(y==9)cell.innerHTML='<h5 class="FontTitleTables">Query Alignment End</h5>';
+  if(y==10)cell.innerHTML='<h5 class="FontTitleTables">Alignment Score</h5>';
+  if(y==11)cell.innerHTML='<h5 class="FontTitleTables">Strand of Query</h5>';
+  if(y==12)cell.innerHTML='<h5 class="FontTitleTables">Strand of Target</h5>';
 
 }
 }
@@ -967,15 +962,15 @@ for (var y=0;y<9;y++){
   th=document.createElement("th");
   cell=row.appendChild(th);
   cell.style.textAlign = 'center';
-  if(y==0)cell.innerHTML='<h5>#</h5>';
-  if(y==1)cell.innerHTML='<h5>Type Search</h5>';
-  if(y==2)cell.innerHTML='<h5>Gene</h5>';
-  if(y==3)cell.innerHTML='<h5>Product</h5>';
-  if(y==4)cell.innerHTML='<h5>BLAST of Source</h5>';
-  if(y==5)cell.innerHTML='<h5>Number of Relations</h5>';
-  if(y==6)cell.innerHTML='<h5>Genome of Target</h5>';
-  if(y==7)cell.innerHTML='<h5>Gene Begin</h5>';
-  if(y==8)cell.innerHTML='<h5>Gene End</h5>';
+  if(y==0)cell.innerHTML='<h5 class="FontTitleTables">#</h5>';
+  if(y==1)cell.innerHTML='<h5 class="FontTitleTables">Type Search</h5>';
+  if(y==2)cell.innerHTML='<h5 class="FontTitleTables">Gene</h5>';
+  if(y==3)cell.innerHTML='<h5 class="FontTitleTables">Product</h5>';
+  if(y==4)cell.innerHTML='<h5 class="FontTitleTables">BLAST of Source</h5>';
+  if(y==5)cell.innerHTML='<h5 class="FontTitleTables">Number of Relations</h5>';
+  if(y==6)cell.innerHTML='<h5 class="FontTitleTables">Genome of Target</h5>';
+  if(y==7)cell.innerHTML='<h5 class="FontTitleTables">Gene Begin</h5>';
+  if(y==8)cell.innerHTML='<h5 class="FontTitleTables">Gene End</h5>';
 
 }
 }
@@ -1011,12 +1006,12 @@ for(var i=0; i<lengthhitsSequence; i++){
     ToRemove=geneArray.splice(geneArray.length-1,1);
     ToRemove="_"+ToRemove[0];
     geneToUsehit=HitsArraySequence[i].hit.gene.split("...")[1].replace(ToRemove,"");
-    if(j==0)cell.innerHTML=(i+1);
-    if(j==1)cell.innerHTML=HitsArraySequence[i].typesearch;
+    if(j==0)cell.innerHTML='<h5 class="FontTables">'+(i+1)+'</h5>';
+    if(j==1)cell.innerHTML='<h5 class="FontTables">'+HitsArraySequence[i].typesearch+'</h5>';
     if(j==2){
         if (isSearchByBLAST=='yes'){
                 cell.innerHTML= '<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+geneToUsesource+'</a>'+
+                                '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+'<h5 class="FontTables">'+geneToUsesource+'</h5>'+'</a>'+
                                 '<input type="hidden" name="null" value="null">'+
                                 '<input type="hidden" name="nameSourceGene" value="'+geneToUsesource+'">'+
                                       '</form>';
@@ -1024,8 +1019,8 @@ for(var i=0; i<lengthhitsSequence; i++){
         } 
         else{
                 cell.innerHTML='<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+geneToUsesource+'</a>'+
-                                        '<button type="submit" class="btn btn-link">  (See Position)</button>'+
+                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+'<h5 class="FontTables">'+geneToUsesource+'</h5>'+'</a>'+
+                                        '<button type="submit" class="btn btn-link ">  (See Position)</button>'+
                                         '<input type="hidden" name="ElementIDposition" value="'+HitsArraySequence[i].positionSource+'">'+
                                         '<input type="hidden" name="nameSourceGene" value="'+geneToUsesource+'">'+
                                       '</form>';
@@ -1034,24 +1029,24 @@ for(var i=0; i<lengthhitsSequence; i++){
     if(j==3){
 
         cell.innerHTML='<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsehit+'" target="_blank">'+geneToUsehit+'</a>'+
+                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsehit+'" target="_blank">'+'<h5 class="FontTables">'+geneToUsehit+'</h5>'+'</a>'+
                                         '<button type="submit" class="btn btn-link">  (See Position)</button>'+
                                         '<input type="hidden" name="ElementIDposition" value="'+HitsArraySequence[i].positionTarget+'">'+
                                         '<input type="hidden" name="nameTargetGene" value="'+geneToUsehit+'">'+
                                       '</form>';
       
     }
-    if(j==4)cell.innerHTML=HitsArraySequence[i].hit.product;
-    if(j==5)cell.innerHTML=HitsArraySequence[i].hit.genome;
-    if(j==6)cell.innerHTML=HitsArraySequence[i].referenceStart+'<input type="hidden" name="seqref" value="'+HitsArraySequence[i].sequenceSubject+'" />';
-    if(j==7)cell.innerHTML=HitsArraySequence[i].subjectEnd;
-    if(j==8)cell.innerHTML=HitsArraySequence[i].alignmentStart+'<input type="hidden" name="seqQuery" value="'+HitsArraySequence[i].sequenceQuery+'" />';
-    if(j==9)cell.innerHTML=String(parseInt(HitsArraySequence[i].alignmentStart) + parseInt(HitsArraySequence[i].lengthAlignment));
-    if(j==10)cell.innerHTML=parseFloat(HitsArraySequence[i].alignmentScore).toFixed(2)+'<input type="hidden" name="seqmatches" value="'+HitsArraySequence[i].sequenceMatch+'" />';
-    if(j==11)cell.innerHTML='+';
+    if(j==4)cell.innerHTML='<h5 class="FontTables">'+HitsArraySequence[i].hit.product+'</h5>';
+    if(j==5)cell.innerHTML='<h5 class="FontTables">'+HitsArraySequence[i].hit.genome+'</h5>';
+    if(j==6)cell.innerHTML='<h5 class="FontTables">'+HitsArraySequence[i].referenceStart+'</h5>'+'<input type="hidden" name="seqref" value="'+HitsArraySequence[i].sequenceSubject+'" />';
+    if(j==7)cell.innerHTML='<h5 class="FontTables">'+HitsArraySequence[i].subjectEnd+'</h5>';
+    if(j==8)cell.innerHTML='<h5 class="FontTables">'+HitsArraySequence[i].alignmentStart+'</h5>'+'<input type="hidden" name="seqQuery" value="'+HitsArraySequence[i].sequenceQuery+'" />';
+    if(j==9)cell.innerHTML='<h5 class="FontTables">'+String(parseInt(HitsArraySequence[i].alignmentStart) + parseInt(HitsArraySequence[i].lengthAlignment))+'</h5>';
+    if(j==10)cell.innerHTML='<h5 class="FontTables">'+parseFloat(HitsArraySequence[i].alignmentScore).toFixed(2)+'</h5>'+'<input type="hidden" name="seqmatches" value="'+HitsArraySequence[i].sequenceMatch+'" />';
+    if(j==11)cell.innerHTML='<h5 class="FontTables">'+'+'+'</h5>';
     if(j==12){
-      if (parseInt(HitsArraySequence[i].referenceStart) > parseInt(HitsArraySequence[i].subjectEnd)) cell.innerHTML='-';
-      else cell.innerHTML='+';
+      if (parseInt(HitsArraySequence[i].referenceStart) > parseInt(HitsArraySequence[i].subjectEnd)) cell.innerHTML='<h5 class="FontTables">'+'-'+'</h5>';
+      else cell.innerHTML='<h5 class="FontTables">'+'+'+'</h5>';
     }
 
   }
@@ -1090,46 +1085,46 @@ for(var i=0; i<lengthHits; i++){
     geneToUsehit=HitsArraySearch[i].hit.gene.split("...")[1].replace(ToRemove,"");
     geneReference1=HitsArraySearch[i].hit.reference.replace(/\s/g, "---");
     geneReference1=geneReference1.replace(/\|/g, "...");
-    if(j==0)cell.innerHTML=(i+1);
-    if(j==1)cell.innerHTML=HitsArraySearch[i].typesearch;
+    if(j==0)cell.innerHTML='<h5 class="FontTables">'+(i+1)+'</h5>';
+    if(j==1)cell.innerHTML='<h5 class="FontTables">'+HitsArraySearch[i].typesearch+'</h5>';
     if(j==2)cell.innerHTML='<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUse+'" target="_blank">'+geneToUse+'</a>'+
+                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUse+'" target="_blank">'+'<h5 class="FontTables">'+geneToUse+'</h5>'+'</a>'+
                                         '<button type="submit" class="btn btn-link">  (See Position)</button>'+
                                         '<input type="hidden" name="ElementIDposition" value="'+HitsArraySearch[i].positionSource+'">'+
                                       '</form>';
-    if(j==3)cell.innerHTML=HitsArraySearch[i].hit.product;
+    if(j==3)cell.innerHTML='<h5 class="FontTables">'+HitsArraySearch[i].hit.product+'</h5>';
 
     var insert= '<div class="modal fade" id="myModalsequenceParameters'+i+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
                                   '<div class="modal-dialog">'+
                                     '<div class="modal-content">'+
                                       '<div class="modal-header">'+
                                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                                        '<h4 class="modal-title" id="myModalLabel">Choose the E-value and Minimum Alignment</h4>'+
+                                        '<h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose the E-value and Minimum Alignment</a></h4>'+
                                       '</div>'+
                                       '<form enctype="multipart/form-data" id="formBLAST2" name="formBLAST2" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST2();">'+
                                       '<div class="modal-body">'+
                                         '<div class="form-group">'+
-                                          '<label for="E-value">E-value</label>';
+                                          '<label for="E-value"><li class="FontModals">E-value</li></label>';
                                      if(String(countGenome)==String(HitsArraySearch[i].hit.gene.split("...")[0])) insert+='<input type="hidden" name="refgenome" value="1" />';
                                      else insert+='<input type="hidden" name="refgenome" value="'+String(parseInt(HitsArraySearch[i].hit.gene.split("...")[0]) + 1 )+'" />';
                                      insert+='<input type="hidden" name="rundatabasesearch" value="rundatabasesearch" />'+
                                           '<input type="name" class="form-control" id="E-value" name="edit_Evalue" placeholder="0.001">'+
-                                          '<label for="edit_Align">Miminum Alignment:</label><input type="name" class="form-control" id="edit_Align" name="edit_Align" placeholder="300">'+
+                                          '<label for="edit_Align"><li class="FontModals">Miminum Alignment:</li></label><input type="name" class="form-control" id="edit_Align" name="edit_Align" placeholder="300">'+
                                           '<input type="hidden" name="querygene" value="'+HitsArraySearch[i].hit.gene+'" />'+
                                           '<input type="hidden" name="geneBegin" value="'+HitsArraySearch[i].hit.begin+'">'+
                                           '<input type="hidden" name="geneEnd" value="'+HitsArraySearch[i].hit.end+'">'+
                                           '<input type="hidden" name="geneReference" value="'+geneReference1+'">'+
                                      '</div>'+
                                      '</div><div class="modal-footer">'+
-                                      '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                      '<button type="submit" class="btn btn-primary" name="CheckSimilarity">BLAST!</button></div></form></div></div></div>'+
-                                    '<button href="#" data-toggle="modal" data-target="#myModalsequenceParameters'+i+'" class="btn btn-link">BLAST against next position sequences.</button>';
+                                      '<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>'+
+                                      '<button type="submit" class="btn btn-primary btn-lg" name="CheckSimilarity">BLAST!</button></div></form></div></div></div>'+
+                                    '<button href="#" data-toggle="modal" data-target="#myModalsequenceParameters'+i+'" class="btn btn-link btn-lg">'+'<h5 class="FontTables">'+'BLAST against next position sequences.</button>';
     if(j==4)cell.innerHTML=insert;                                
-    if(j==5)cell.innerHTML='<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + HitsArraySearch[i].numRelations + '</a><b class="caret"></b><ul class="dropdown-menu">' + listaImports
+    if(j==5)cell.innerHTML='<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'+'<h5 class="FontTables">'+ HitsArraySearch[i].numRelations +'</h5>'+ '</a><b class="caret"></b><ul class="dropdown-menu">' + listaImports
                           + '</ul></a></li>';
-    if(j==6)cell.innerHTML=HitsArraySearch[i].hit.genome;
-    if(j==7)cell.innerHTML=HitsArraySearch[i].hit.begin;
-    if(j==8)cell.innerHTML=HitsArraySearch[i].hit.end;
+    if(j==6)cell.innerHTML='<h5 class="FontTables">'+HitsArraySearch[i].hit.genome+'</h5>';
+    if(j==7)cell.innerHTML='<h5 class="FontTables">'+HitsArraySearch[i].hit.begin+'</h5>';
+    if(j==8)cell.innerHTML='<h5 class="FontTables">'+HitsArraySearch[i].hit.end+'</h5>';
 
   }
 
@@ -1470,10 +1465,10 @@ $(function () {
           insertdrop+= '<hr></hr><div class="modal fade" id="myModalsequenceParameters" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
                                   '<div class="modal-dialog">'+
                                     '<div class="modal-content">'+
-                                    '<form enctype="multipart/form-data" id="formBLAST" name="formBLAST" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST1();>'+
+                                    '<form enctype="multipart/form-data" id="formBLAST1" name="formBLAST1" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST1();">'+
                                       '<div class="modal-header">'+
                                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                                        '<h4 class="modal-title" id="myModalLabel">Choose the E-value and Minimum Alignment</h4>'+
+                                        '<h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Choose the E-value and Minimum Alignment</a></h4>'+
                                       '</div>'+
                                       '<div class="modal-body">'+
                                         '<div class="form-group">';
@@ -1481,16 +1476,16 @@ $(function () {
           else insertdrop+='<input type="hidden" name="refgenome" value="'+String(parseInt(positionOfThis) + 1 )+'" />';
 
                               insertdrop+='<input type="hidden" name="rundatabasesearch" value="rundatabasesearch" />'+
-                                          '<label for="edit_Evalue">E-value:</label><input type="name" class="form-control" id="edit_Evalue" name="edit_Evalue" placeholder="0.001">'+
-                                          '<label for="edit_Align">Miminum Alignment:</label><input type="name" class="form-control" id="edit_Align" name="edit_Align" placeholder="300">'+
+                                          '<label for="edit_Evalue"><li class="FontModals">E-value:</li></label><input type="name" class="form-control" id="edit_Evalue" name="edit_Evalue" placeholder="0.001">'+
+                                          '<label for="edit_Align"><li class="FontModals">Miminum Alignment:</li></label><input type="name" class="form-control" id="edit_Align" name="edit_Align" placeholder="300">'+
                                           '<input type="hidden" name="querygene" value="'+presentGene+'" />'+
                                           '<input type="hidden" name="geneBegin" value="'+geneBegin+'">'+
                                           '<input type="hidden" name="geneEnd" value="'+geneEnd+'">'+
                                           '<input type="hidden" name="geneReference" value="'+geneReference+'">'+
                                         '</div>'+
                                      '</div><div class="modal-footer">'+
-                                      '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                      '<button type="submit" class="btn btn-primary" name="CheckSimilarity">BLAST!</button></div></div></div></div></form>'+
+                                      '<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>'+
+                                      '<button type="submit" class="btn btn-primary btn-lg" name="CheckSimilarity">BLAST!</button></div></div></div></div></form>'+
                                     '<button href="#" data-toggle="modal" data-target="#myModalsequenceParameters" class="btn btn-link">BLAST ' + geneToUse + ' against next position sequences.</button>';
           }
 
@@ -1544,23 +1539,23 @@ $(function () {
                                     '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                       '<div class="modal-header">'+
                                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                                        '<h4 class="modal-title" id="myModalLabel">Edit Information</h4>'+
+                                        '<h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Edit Information</a></h4>'+
                                       '</div>'+
                                       '<div class="modal-body">'+
                                         '<div class="form-group">'+
-                                          '<label for="GeneName">Gene Name</label>'+
+                                          '<label for="GeneName"><li class="FontModals">Gene Name</li></label>'+
                                           '<input type="name" class="form-control" id="GeneName" name="EditName" placeholder="'+Pgene+'">'+
                                           '<input type="hidden" name="OriginalName" value="'+presentGene+'">'+
                                           '<input type="hidden" name="geneBegin" value="'+geneBegin+'">'+
                                           '<input type="hidden" name="geneEnd" value="'+geneEnd+'">'+
                                         '</div>'+
                                       '<div class="form-group">'+
-                                        '<label for="GeneProduct">Gene Product</label>'+
+                                        '<label for="GeneProduct"><li class="FontModals">Gene Product</li></label>'+
                                         '<input type="name" class="form-control" id="GeneProduct" name="EditProduct" placeholder="'+geneProduct+'">'+
                                         '<input type="hidden" name="OriginalProduct" value="'+geneProduct+'">'+
                                       '</div></div><div class="modal-footer">'+
-                                      '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                      '<button type="submit" class="btn btn-primary" name="EditInformation">Save</button></div></div></div></div></form>'+
+                                      '<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>'+
+                                      '<button type="submit" class="btn btn-primary btn-lg" name="EditInformation">Save</button></div></div></div></div></form>'+
                                     '<button href="#" data-toggle="modal" data-target="#myModaledit_info" class="btn btn-link">Edit Information</button>';
           insertdrop += '</ul>';                 
           $contextMenu.append(insertdrop);

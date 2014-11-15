@@ -43,18 +43,18 @@
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="index.php">Home</a></li>
-                <li><a  href="#" data-toggle="modal" data-target="#myModalContigs">Start Using</a></li>
+                <li class="active"><a class="navPrincipal" href="index.php">Home</a></li>
+                <li><a  class="navPrincipal" href="#" data-toggle="modal" data-target="#myModalContigs">Start Using</a></li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
+                  <a class="navPrincipal" href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="Tutorial.php">Tutorial</a></li>
+                    <li><a class="navPrincipal" href="Tutorial.php">Tutorial</a></li>
                     <li class="divider"></li>
-                    <li><a href="TestFiles.php">Test Files</a></li>
+                    <li><a class="navPrincipal" href="TestFiles.php">Test Files</a></li>
                   </ul>
                 </li>
-                <li><a href="About.php">About</a></li>
-                <li><a href="Contact.php">Contacts</a></li>
+                <li><a class="navPrincipal" href="About.php">About</a></li>
+                <li><a class="navPrincipal" href="Contact.php">Contacts</a></li>
               </ul>
             </div>
           </div>
@@ -137,20 +137,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add files to the analysis</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Add files to the analysis</a></h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" class="ModalsSizeFont">
                     <form name="uploadFiles" enctype='multipart/form-data' action='uploaderWithContigs.php' method='POST' onsubmit="return validateForm();">
-                           Choose an Option:<select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
-                                     <option value="yes">GFF+Fasta</option>
-                                     <option value="no">Others</option></select>
+                           <li class="FontModals">Choose an Option:</li><select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
+                                     <option value="yes" class="FontModals">GFF+Fasta</option>
+                                     <option value="no" class="FontModals">Others</option></select>
                           <div id="fileOther"></div>
-                          <div id="fileGFF+FASTA"><br>Choose a .gff file: <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default'/>
-                          <br>Choose a .fasta file: <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default'/><br></div>
-                          <input type="checkbox" name="Iscontig" value="yes">It is a file with contigs data<br>
+                          <div id="fileGFF+FASTA"><br><li class="FontModals">Choose a .gff file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/>
+                          <br><li class="FontModals">Choose a .fasta file:</li> <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br></div>
+                          <input type="checkbox" name="Iscontig" value="yes"><a class="FontModals">&nbsp;It is a file with contigs data</a><br>
                           <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <input type='submit' class='btn btn-primary' value='Upload File' />
+                          <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                          <input type='submit' class='btn btn-primary btn-lg' value='Upload File' />
                           </div>
                           <input type='hidden' name='addmorefiles' value='addfiles'/>
                           </form>              
@@ -171,11 +171,11 @@
         var selected=document.getElementById("inputType").value;
         if (selected=='no'){
           document.getElementById("fileGFF+FASTA").innerHTML="";
-          document.getElementById("fileOther").innerHTML="<br>Choose one of the supported file formats (.fasta, .gbk, .gff): <input name='moreuploadedfile[]' type='file' class='btn btn-default'/><br>";
+          document.getElementById("fileOther").innerHTML="<br><li class='FontModals'>Choose one of the supported file formats (.fasta, .gbk, .gff): </li><input name='moreuploadedfile[]' type='file' class='btn btn-default btn-lg'/><br>";
         }
         if (selected=='yes'){
           document.getElementById("fileOther").innerHTML="";
-          document.getElementById("fileGFF+FASTA").innerHTML="<br>Choose a GFF file: <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default'/><br>Choose a FASTA file: <input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default'/><br>";
+          document.getElementById("fileGFF+FASTA").innerHTML="<br><li class='FontModals'>Choose a GFF file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lgt'/><br><li class='FontModals'>Choose a FASTA file:</li> <input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br>";
         }
       }
 
@@ -226,6 +226,7 @@
 <?php 
     session_start();
     session_unset(); 
+    $_SESSION['alreadyShownUpload']='no';
 ?>
 
 
@@ -236,12 +237,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">Please choose a file to upload.<br>You only can upload one of the supported files. (.fasta, .gbk, .gff)
+      <div class="modal-body"><li class="FontModals">Please choose a file to upload.<br>You only can upload one of the supported files. (.fasta, .gbk, .gff)</li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -252,12 +253,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Error</h4>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
       </div>
-      <div class="modal-body">For the option GFF + FASTA, you need to upload a sequence file (.fasta) and an annotation file (.gff) at the same time.
+      <div class="modal-body"><li class="FontModals">For the option GFF + FASTA, you need to upload a sequence file (.fasta) and an annotation file (.gff) at the same time.</li>
 </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>

@@ -6,7 +6,7 @@
 }
 
 
-#demo_1 svg, #demo_2 svg          { border:         solid 2px #2c2c2c; }
+#demo_1 svg, #demo_2 svg          { border:         solid 0px #2c2c2c; }
 
 
 .node ellipse                     { stroke:         #000;   }
@@ -38,8 +38,8 @@
 
 .notes {
 	position:absolute;
-	left:400px;
-	top:150px;
+	left:300px;
+	top:100px;
 }
 
 #contextMenu {

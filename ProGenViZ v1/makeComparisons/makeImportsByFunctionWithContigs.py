@@ -41,9 +41,9 @@ for i in range(1, lastline):
 				isThere='true'
 			if re.search(y,gene):
 				isThere='true'
-		lastlineGenome = linha[51]
+		lastlineGenome = linha[len(linha)-6]
 		if i==3:
-			firstGenomeLine=linha[51]
+			firstGenomeLine=linha[len(linha)-6]
 		if prevLastlineGenome!=lastlineGenome:
 			prevLastlineGenome=lastlineGenome
 			countNumGenomes+=1

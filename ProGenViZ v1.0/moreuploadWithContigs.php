@@ -626,15 +626,15 @@
         var selected=document.getElementById("inputType").value;
         if (selected=='no'){
           document.getElementById("fileGFF+FASTA").innerHTML="";
-          document.getElementById("fileOther").innerHTML="<br><li class='FontModals'>Choose one of the supported file formats (.fasta, .gbk, .gff): </li><input name='moreuploadedfile[]' type='file' class='btn btn-default btn-lg'/><br>";
+          document.getElementById("fileOther").innerHTML="<br><li class='FontModals'>Choose one of the supported file formats (.fasta, .gbk, .gff): </li><input name='moreuploadedfile[]' type='file' class='btn btn-default btn-lg'/><br><input type='checkbox' name='Iscontig' value='yes'><a class='FontModals'>&nbsp;It is a FASTA file with contigs data</a><br>";
         }
         if (selected=='yes'){
           document.getElementById("fileOther").innerHTML="";
-          document.getElementById("fileGFF+FASTA").innerHTML="<br><li class='FontModals'>Choose a GFF file: </li><input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/><br><li class='FontModals'>Choose a FASTA file: </li><input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br>";
+          document.getElementById("fileGFF+FASTA").innerHTML="<br><li class='FontModals'>Choose a GFF file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/><br><li class='FontModals'>Choose a FASTA file:</li> <input name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br>";
         }
       }
 
-    function validateForm() {
+      function validateForm() {
         var y = document.forms["uploadFiles"]["typeUpload"].value;
         if (y =='yes'){
           var XfilesGFF=document.forms["uploadFiles"]["moreuploadedfileGFF[]"].files;
@@ -652,13 +652,18 @@
       }
         else{
         var Xfiles=document.forms["uploadFiles"]["moreuploadedfile[]"].files;
+        var Iscontig=document.forms["uploadFiles"]["Iscontig"].checked;
         if (Xfiles.length==0){
             $('#myModalShowError').modal('show');
             return false;
           }
         else{
           var x =Xfiles[0].name;
-          if (x == null || x == "" || (x.search('.fa')==-1 && x.search('.fasta')==-1 && x.search('.gbk')==-1 && x.search('.gff')==-1)) {
+          if ((x.search('.fa')==-1 && x.search('.fasta')==-1) && Iscontig){
+              $('#myModalOnlyFASTA').modal('show');
+          return false;
+          }
+          else if (x == null || x == "" || (x.search('.fa')==-1 && x.search('.fasta')==-1 && x.search('.gbk')==-1 && x.search('.gff')==-1)) {
               $('#myModalShowError').modal('show');
           return false;
         }
@@ -898,30 +903,27 @@ window.onload = function () {
   </body>
 
 <!--MODALS-->
-<div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModalContigs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Add files to the analysis</a></h4>
       </div>
-      <div class="modal-body">
-                    
-                      <form name="uploadFiles" enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST" onsubmit="return validateForm();">
-                      
+      <div class="modal-body" class="ModalsSizeFont">
+                    <form name="uploadFiles" enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST' onsubmit="return validateForm();">
                            <li class="FontModals">Choose an Option:</li><select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
                                      <option value="yes" class="FontModals">GFF+Fasta</option>
                                      <option value="no" class="FontModals">Others</option></select>
                           <div id="fileOther"></div>
                           <div id="fileGFF+FASTA"><br><li class="FontModals">Choose a .gff file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/>
                           <br><li class="FontModals">Choose a .fasta file:</li> <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br></div>
-                          <input type="checkbox" name="Iscontig" value="yes"><a class="FontModals">&nbsp;It is a file with contigs data</a><br>
                           <div class="modal-footer">
                           <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
                           <input type='submit' class='btn btn-primary btn-lg' value='Upload File' />
                           </div>
                           <input type='hidden' name='addmorefiles' value='addfiles'/>
-                          </form>                
+                          </form>              
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -1519,6 +1521,22 @@ if(isset($_POST['exclude_hypothetical']));
     </div>
   </div>
 </div>
+</div>
+
+<div class="modal fade" id="myModalOnlyFASTA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Error</a></h4>
+      </div>
+      <div class="modal-body"><li class="FontModals">Only FASTA files can be used as files with contigs data.</li>
+</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
 </div>
 
 <!--<div class="modal fade" id="GeneTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

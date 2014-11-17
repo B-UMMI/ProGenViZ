@@ -291,7 +291,7 @@
       $exportContig=$_POST['contigToExport'];
       $exportgenome=$_POST['GenomeToExport'];
       $exportType=$_POST['ExportType'];
-      $posGinteger=intval($exportGenome);
+      $posGinteger=intval($exportgenome)-1;
       $exportFile=$_SESSION['array_path[]'][$posGinteger];
       $partsFile=explode('/',$exportFile);
       $fileNameToExport=$partsFile[count($partsFile)-1];
@@ -903,7 +903,7 @@ window.onload = function () {
   </body>
 
 <!--MODALS-->
-<div class="modal fade" id="myModalContigs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

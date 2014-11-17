@@ -548,7 +548,7 @@
       $exportContig=$_POST['contigToExport'];
       $exportgenome=$_POST['GenomeToExport'];
       $exportType=$_POST['ExportType'];
-      $posGinteger=intval($exportGenome);
+      $posGinteger=intval($exportgenome)-1;
       $exportFile=$_SESSION['array_path[]'][$posGinteger];
       $partsFile=explode('/',$exportFile);
       $fileNameToExport=$partsFile[count($partsFile)-1];
@@ -1349,7 +1349,7 @@
           $geneBegin=$_POST['geneBegin'];
           $geneEnd=$_POST['geneEnd'];
           exec("python parsers/AddTail.py $wherePath $pathToSequence");
-          $path = "cd Prodigal/Prodigal-2.60 && ./prodigal -i ../../uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > ../../uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
+          $path = "prodigal -i uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
           exec("$path");
           exec("python parsers/AnnotateRegion.py $wherePath $searchRegion $num_filesArray $geneBegin $geneEnd",$contigToExport);
           $Topass=$searchR2[0].'...'.$contigToExport[0];

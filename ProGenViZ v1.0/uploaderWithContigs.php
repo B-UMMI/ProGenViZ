@@ -257,7 +257,7 @@
       $exportContig=$_POST['contigToExport'];
       $exportgenome=$_POST['GenomeToExport'];
       $exportType=$_POST['ExportType'];
-      $posGinteger=intval($exportGenome);
+      $posGinteger=intval($exportgenome)-1;
       $exportFile=$_SESSION['array_path[]'][$posGinteger];
       $partsFile=explode('/',$exportFile);
       $fileNameToExport=$partsFile[count($partsFile)-1];

@@ -1,37 +1,21 @@
 ProGenViZ v1.0
 
-Programas necessários:
+ProGenViZ is a simple web-based program build to visualize, compare, search, order sequences against a reference, and annotate multiple prokaryotic genome sequences and contigs.
 
-- Python -> Versao 2.7.3 com Biopython 1.58
-- BLAST -> Versão 2.2.25 
-- nucmer -> Ferramenta de alinhamento de sequencias de DNA. Versao 3.07 sudo apt-get install nucmer
-- Perl   -> Versao 5.14.2 com modulos File::Slurp, File::Temp e CGI::Carp instalados atraves do CPAN.
-- Google-Chrome -> Actualmente, o programa apenas está totalmente funcional com este Browser.
-- rsvg-convert -> Version 2.36.1 Usado para fazer as conversoes de SVG para PDF ou PNG através de um script em Pearl presente em cgi-bin (export.pl) depois de submeter um form. 
-- Prodigal -> Imbutido no programa a versão 2.60
+Fully functional with Google-Chrome and Safari web browsers
+
+Auxiliary software needed to locally install ProgenViZ:
+
+	- Python -> version 2.7.3 and Biopython 1.58 or above.
+	- BLAST -> version 2.2.25 or above.
+	- nucmer alignment software -> version 3.07 or above (sudo apt-get install nucmer). Used to order contigs againsta a reference and detect SNPs.
+	- Perl   -> version 5.14.2 or above with the modules File::Slurp and File::Temp, CGI::Carp installed through CPAN. Need to define the cgi-bin folder on the webserver. 
+	- rsvg-convert -> version 2.36.1 or above. Used to perform conversions from SVG images to PDF or PNG using the export.pl script from the cgi-bin folder.
+	- Prodigal -> version 2.60 or above. Used to predict prokaryotic CDS locations in nucleotide sequences
+
 
 Plugins:
-Estão imbutidos no programa
-- DataTables-1.9.4 -> Utilizado para criar tabelas html interactivas. extras: TableTools, ColReorder, ColVis
-- pace-0.5.1 -> Usado para criar a Progress Bar
 
-Indicações Adicionais:
+	- DataTables-1.9.4 -> Used to create interactive html tables.
 
-- Alterar cgi-bin no web-server para que o export.pl funcione.
-- Alterar php.ini para ter uploads superiores a 2M. upload_max_filesize, post_max_size e tempo de resposta maximo.
-- Actualmente as permissões estão todas em 777 para construir o site à vontade mas depois têm de ser alteradas.
-- Os ficheiros de python e alguns php quando criam ficheiros ou directorias alteram também as permissões para 777. Têm de ser adaptadas quando o site for passado para o servidor.
 
-Possíveis permissões para Folders:
-
-- parsers -> Executar
-- makeComparisons -> Executar
-- cgi-bin -> Executar
-- css -> leitura
-- data_plot_js -> leitura
-- img -> leitura
-- js -> leitura
-- plugins -> leitura
-- prodigal -> executar
-- TesFiles -> leitura
-- uploads -> leitura e gravação

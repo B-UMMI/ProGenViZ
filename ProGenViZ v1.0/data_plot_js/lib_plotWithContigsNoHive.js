@@ -738,7 +738,7 @@ $(function () {
             if(String(i+1) != positionOfThis){
 
 
-                     insertdrop +=   '<hr></hr><li><form enctype="multipart/form-data" action="' + currentpage + '" method="POST"><input type="submit" class="btn btn-link" name="position" value="Move to position ' + String(i+1) +'" />' +
+                     insertdrop +=   '<li><form enctype="multipart/form-data" action="' + currentpage + '" method="POST"><input type="submit" class="btn btn-link" name="position" value="Move to position ' + String(i+1) +'" />' +
                                      '<input type="hidden" name="positionToBe" value="'+String(i)+'" />' +
                                      '<input type="hidden" name="currentPosition" value="'+String(parseInt(positionOfThis) - 1 )+'" />' +
                                      '</form></li>';
@@ -747,7 +747,7 @@ $(function () {
           
           }
 
-          insertdrop+= '<hr></hr><form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
+          insertdrop+= '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                     '<input type="hidden" name="GetSequence" value="GetSequence">'+
                                     '<input type="hidden" name="geneReference" value="'+geneReference+'">'+
                                     '<input type="hidden" name="queryGene" value="'+presentGene+'" />'+
@@ -755,7 +755,7 @@ $(function () {
 
           if (mContigs=='yes'){
             var contigToExport=this.getAttribute('contig');
-            insertdrop+= '<hr></hr><form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
+            insertdrop+= '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                     '<input type="hidden" name="exportContig" value="exportContig">'+
                                     '<input type="hidden" name="GenomeToExport" value="'+positionOfThis+'">'+
                                     '<input type="hidden" name="contigToExport" value="'+contigToExport+'" />'+
@@ -764,7 +764,7 @@ $(function () {
           }
 
           if (countGenome>1){
-          insertdrop+= '<hr></hr><div class="modal fade" id="myModalsequenceParameters" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+          insertdrop+= '<div class="modal fade" id="myModalsequenceParameters" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
                                   '<div class="modal-dialog">'+
                                     '<div class="modal-content">'+
                                     '<form enctype="multipart/form-data" id="formBLAST1" name="formBLAST1" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST1();">'+
@@ -805,7 +805,7 @@ $(function () {
                                     '</form>';
           
           */                        
-          insertdrop+= '<hr></hr><div class="modal fade" id="myModaledit_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+          insertdrop+= '<br><div class="modal fade" id="myModaledit_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
                                   '<div class="modal-dialog">'+
                                     '<div class="modal-content">'+
                                     '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+

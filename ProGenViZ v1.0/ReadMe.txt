@@ -17,5 +17,3 @@ Auxiliary software needed to locally install ProgenViZ:
 Plugins:
 
 	- DataTables-1.9.4 -> Used to create interactive html tables.
-
-

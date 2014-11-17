@@ -1024,7 +1024,7 @@ for(var i=0; i<lengthhitsSequence; i++){
     if(j==2){
         if (isSearchByBLAST=='yes'){
                 cell.innerHTML= '<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+'<h5 class="FontTables">'+geneToUsesource+'</h5>'+'</a>'+
+                                '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+'<h6>'+geneToUsesource+'</h6>'+'</a>'+
                                 '<input type="hidden" name="null" value="null">'+
                                 '<input type="hidden" name="nameSourceGene" value="'+geneToUsesource+'">'+
                                       '</form>';
@@ -1032,7 +1032,7 @@ for(var i=0; i<lengthhitsSequence; i++){
         } 
         else{
                 cell.innerHTML='<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+'<h5 class="FontTables">'+geneToUsesource+'</h5>'+'</a>'+
+                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsesource+'" target="_blank">'+'<h6>'+geneToUsesource+'</h6>'+'</a>'+
                                         '<button type="submit" class="btn btn-link ">  (See Position)</button>'+
                                         '<input type="hidden" name="ElementIDposition" value="'+HitsArraySequence[i].positionSource+'">'+
                                         '<input type="hidden" name="nameSourceGene" value="'+geneToUsesource+'">'+
@@ -1042,7 +1042,7 @@ for(var i=0; i<lengthhitsSequence; i++){
     if(j==3){
 
         cell.innerHTML='<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsehit+'" target="_blank">'+'<h5 class="FontTables">'+geneToUsehit+'</h5>'+'</a>'+
+                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUsehit+'" target="_blank">'+'<h6>'+geneToUsehit+'</h6>'+'</a>'+
                                         '<button type="submit" class="btn btn-link">  (See Position)</button>'+
                                         '<input type="hidden" name="ElementIDposition" value="'+HitsArraySequence[i].positionTarget+'">'+
                                         '<input type="hidden" name="nameTargetGene" value="'+geneToUsehit+'">'+
@@ -1101,7 +1101,7 @@ for(var i=0; i<lengthHits; i++){
     if(j==0)cell.innerHTML='<h5 class="FontTables">'+(i+1)+'</h5>';
     if(j==1)cell.innerHTML='<h5 class="FontTables">'+HitsArraySearch[i].typesearch+'</h5>';
     if(j==2)cell.innerHTML='<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST">'+
-                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUse+'" target="_blank">'+'<h5 class="FontTables">'+geneToUse+'</h5>'+'</a>'+
+                                        '<a href="'+"http://www.ncbi.nlm.nih.gov/gene/?term="+geneToUse+'" target="_blank">'+'<h6>'+geneToUse+'</h6>'+'</a>'+
                                         '<button type="submit" class="btn btn-link">  (See Position)</button>'+
                                         '<input type="hidden" name="ElementIDposition" value="'+HitsArraySearch[i].positionSource+'">'+
                                       '</form>';
@@ -1131,7 +1131,7 @@ for(var i=0; i<lengthHits; i++){
                                      '</div><div class="modal-footer">'+
                                       '<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>'+
                                       '<button type="submit" class="btn btn-primary btn-lg" name="CheckSimilarity">BLAST!</button></div></form></div></div></div>'+
-                                    '<button href="#" data-toggle="modal" data-target="#myModalsequenceParameters'+i+'" class="btn btn-link btn-lg">'+'<h5 class="FontTables">'+'BLAST against next position sequences.</button>';
+                                    '<button href="#" data-toggle="modal" data-target="#myModalsequenceParameters'+i+'" class="btn btn-link btn-lg">'+'<h6>'+'BLAST against next position sequences.</h6></button>';
     if(j==4)cell.innerHTML=insert;                                
     if(j==5)cell.innerHTML='<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'+'<h5 class="FontTables">'+ HitsArraySearch[i].numRelations +'</h5>'+ '</a><b class="caret"></b><ul class="dropdown-menu">' + listaImports
                           + '</ul></a></li>';
@@ -1446,7 +1446,7 @@ $(function () {
             if(String(i+1) != positionOfThis){
               
 
-                     insertdrop +=   '<hr></hr><li><form enctype="multipart/form-data" action="' + currentpage + '" method="POST"><input type="submit" class="btn btn-link" name="position" value="Move to position ' + String(i+1) +'" />' +
+                     insertdrop +=   '<li><form enctype="multipart/form-data" action="' + currentpage + '" method="POST"><input type="submit" class="btn btn-link" name="position" value="Move to position ' + String(i+1) +'" />' +
                                      '<input type="hidden" name="positionToBe" value="'+String(i)+'" />' +
                                      '<input type="hidden" name="currentPosition" value="'+String(parseInt(positionOfThis) - 1 )+'" />' +
                                      '</form></li>';
@@ -1455,7 +1455,7 @@ $(function () {
           
           }
 
-          insertdrop+= '<hr></hr><form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
+          insertdrop+= '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                     '<input type="hidden" name="GetSequence" value="GetSequence">'+
                                     '<input type="hidden" name="geneReference" value="'+geneReference+'">'+
                                     '<input type="hidden" name="queryGene" value="'+presentGene+'" />'+
@@ -1463,7 +1463,7 @@ $(function () {
 
           if (mContigs=='yes'){
             var contigToExport=this.getAttribute('contig');
-            insertdrop+= '<hr></hr><form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
+            insertdrop+= '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                     '<input type="hidden" name="exportContig" value="exportContig">'+
                                     '<input type="hidden" name="GenomeToExport" value="'+positionOfThis+'">'+
                                     '<input type="hidden" name="contigToExport" value="'+contigToExport+'" />'+
@@ -1472,7 +1472,7 @@ $(function () {
           }
 
           if (countGenome>1){
-          insertdrop+= '<hr></hr><div class="modal fade" id="myModalsequenceParameters" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+          insertdrop+= '<div class="modal fade" id="myModalsequenceParameters" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
                                   '<div class="modal-dialog">'+
                                     '<div class="modal-content">'+
                                     '<form enctype="multipart/form-data" id="formBLAST1" name="formBLAST1" action="searchWithContigs.php" method="POST" onsubmit="return validateFormBLAST1();">'+
@@ -1513,7 +1513,7 @@ $(function () {
                                     '</form>';
           */
           if(searchBysequence=='yes' && fileName.indexOf('.fasta')>-1){
-          insertdrop+= '<hr></hr><form enctype="multipart/form-data" id="Annotate" action="searchWithContigs.php" method="POST">'+
+          insertdrop+= '<form enctype="multipart/form-data" id="Annotate" action="searchWithContigs.php" method="POST">'+
                                      '<input type="hidden" name="rundatabasesearch" value="rundatabasesearch" />'+
                                      '<input type="hidden" name="AnnotateRegion" value="AnnotateRegion" />'+
                                      '<input type="hidden" name="QueryRegion" value="'+presentGene+'" />'+
@@ -1534,7 +1534,7 @@ $(function () {
             StringOfRegion=StringOfRegion.replace(/ /g,'__')
             StringOfRegion=StringOfRegion.replace(/\(/g,'..')
             StringOfRegion=StringOfRegion.replace(/\)/g,'...')
-            insertdrop+= '<hr></hr>'+
+            insertdrop+= ''+
                           '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+
                                           '<input type="hidden" name="selectionToExport" value="'+StringOfRegion+'">'+
                                           '<input type="hidden" name="genomeToExport" value="'+presentGene.split("...")[0]+'">'+
@@ -1543,7 +1543,7 @@ $(function () {
                           '</form>';
           }
                                   
-          insertdrop+= '<hr></hr><div class="modal fade" id="myModaledit_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+          insertdrop+= '<br><div class="modal fade" id="myModaledit_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
                                   '<div class="modal-dialog">'+
                                     '<div class="modal-content">'+
                                     '<form enctype="multipart/form-data" action="' + currentpage + '" method="POST">'+

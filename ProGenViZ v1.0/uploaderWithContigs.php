@@ -1117,13 +1117,13 @@ if(isset($_POST['exclude_hypothetical']));
           echo "<li><a class='FontModals'>Choose the files to download:</a></li>";
 
         if ($Contigexp=='yes'){
-          echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta">Download the .fasta file</a></li>';
-          echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff">Download the .gff file</a></li>';
+          echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta" target="_blank">Download the .fasta file</a></li>';
+          echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff" target="_blank">Download the .gff file</a></li>';
         }
         else{
-        if (strlen($RegionsToExport)>0 && $moreContigs=='yes') echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta">Download the .fasta file</a></li>';
-        else echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_new.fasta">Download the .fasta file</a></li>';
-        echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff">Download the .gff file</a></li>';
+        if (strlen($RegionsToExport)>0 && $moreContigs=='yes') echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_newP.fasta" target="_blank">Download the .fasta file</a></li>';
+        else echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/FastaToExport/'.$justName.'_new.fasta" target="_blank">Download the .fasta file</a></li>';
+        echo '<li><a style="font-size:18px;" href="uploads/'.$wherePath.'/Results/'.$wherePath.'.gff" target="_blank">Download the .gff file</a></li>';
         }
         ?>
 </div>
@@ -1288,13 +1288,15 @@ if(isset($_POST['exclude_hypothetical']));
         <form id="statFile" name="statFile">
         <li class='FontModals'>Select an option to visualize the statistics</li>
       <select class="form-control" id="selectStat"> 
+
         <?php
         $numFiles=count($array_path);
           for($i=0; $i < $numFiles;$i++){
               $filenumber=$i+1;
-              echo'<option value="'.$i.'">File&nbsp;'.$filenumber.'</option>';
+              $fileName=explode('/',$_SESSION['array_path[]'][$i]);
+              echo'<option value="'.$i.'">'.$fileName[3].'</option>';
           }
-            echo '<option value="all">All Files</option>';
+          if ($numFiles>1) echo '<option value="all">All Files</option>';
         ?>
 </select><br>
       <input class='btn btn-primary btn-lg' value='Check Statistics' onclick="dash()"/></form>
@@ -1320,14 +1322,15 @@ if(isset($_POST['exclude_hypothetical']));
         $numFiles=count($array_path);
           for($i=0; $i < $numFiles;$i++){
               $filenumber=$i+1;
-              echo'<option value="'.$i.'">File&nbsp;'.$filenumber.'</option>';
+              $fileName=explode('/',$_SESSION['array_path[]'][$i]);
+              echo'<option value="'.$i.'">'.$fileName[3].'</option>';
           }
-            echo '<option value="all">All Files</option>';
+          if ($numFiles>1) echo '<option value="all">All Files</option>';
         ?>
 </select><br>
 <input class='btn btn-primary btn-lg' value='Check Statistics' onclick="dash()"/></form><div id="nameGenome"></div>
       <div id="dashSpot"><table id="dash"><tbody><tr><td><li class='FontModals'>Histogram of Sizes</li><div id="histo"></div></td></tr><tr><td><li class='FontModals'>Pie Chart of Products</li><div id="pieChart"></div></td></tr></tbody></table></div>
-        <div id="legendSpot"><table class="display dataTable" id="legend"><thead><tr><th class="legendTitle">Colour</th><th class="legendTitle">Function</th><th class="legendTitle">Counts</th><th class="legendTitle">Frequency</th></tr></thead></table></div>
+        <div id="legendSpot"><table class="display dataTable" id="legend"><thead><tr><th class="legendTitle">Colour</th><th class="legendTitle">Product</th><th class="legendTitle">Counts</th><th class="legendTitle">Frequency</th></tr></thead></table></div>
         <div class="modal-footer">
         </div>
     </div>

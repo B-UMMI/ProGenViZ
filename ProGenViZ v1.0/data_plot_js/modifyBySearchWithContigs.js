@@ -23,6 +23,12 @@ if(showModalNoMatch == 'yes'){
       });
 
 }
+if(showModalNoMatchExt == 'yes'){
+  $(window).load(function(){
+          $('#myModalNoMatchExt').modal('show');
+      });
+
+}
 if(ShowModalErrorDuringAlign == 'yes'){
   $(window).load(function(){
           $('#myModalErrorDuringAlign').modal('show');
@@ -798,8 +804,10 @@ if(searchByBLAST=='yes'){
     seqQuery1=seqQuery[k].split("...");
     seqmatch1=seqmatch[k].split("...");
     identifiers1=identifiers[k].split("---");
+    prevTarget="";
     for (j in lengthAlignments1){
-      if (search_array[k][j].indexOf('BLASTsearch') > -1){
+      if (lengthAlignments1[j]=='not exists');
+      else if (search_array[k][j].indexOf('BLASTsearch') > -1){
         geneU=search_array[k][j].split("BLASTsearch")[0];
         genomeU=parseInt(geneU.split("...")[0])-1;
         for (l in g.nodesByType[genomeU].values){
@@ -807,8 +815,12 @@ if(searchByBLAST=='yes'){
             geneTU=g.nodesByType[genomeU].values[l];
           }
         }
-        HitsArraySequence.push({source: identifiers1[j] , hit : geneTU , typesearch : 'Search By Sequence' , numRelations : '-' , positionSource : '-' , positionTarget : geneTU.indexGeral , lengthAlignment : lengthAlignments1[j] , alignmentStart : alignmentPositionStart[j] , alignmentScore : alignScore1[j] , referenceStart : refStart1[j] , subjectEnd : subEnd1[j], sequenceSubject: seqSub1[j], sequenceQuery: seqQuery1[j], sequenceMatch: seqmatch1[j]}); 
-        countBLASTs+=1
+        if (prevTarget==geneTU);
+        else {
+          HitsArraySequence.push({source: identifiers1[j] , hit : geneTU , typesearch : 'Search By Sequence' , numRelations : '-' , positionSource : '-' , positionTarget : geneTU.indexGeral , lengthAlignment : lengthAlignments1[j] , alignmentStart : alignmentPositionStart[j] , alignmentScore : alignScore1[j] , referenceStart : refStart1[j] , subjectEnd : subEnd1[j], sequenceSubject: seqSub1[j], sequenceQuery: seqQuery1[j], sequenceMatch: seqmatch1[j]}); 
+          countBLASTs+=1;
+          prevTarget=geneTU;
+        }
       }
     }
   }
@@ -834,7 +846,8 @@ if((searchBysequence=='yes' && searchNCBI!='yes')|| editInfo=='yes'){
         if (exclude_hypothetical=='yes' && (g.links[i].target.node.product.indexOf('hypothetical protein') > -1 || g.links[i].source.node.product.indexOf('hypothetical protein') > -1));
         else{
         for (j in lengthAlignments1){ 
-          if (g.links[i].target.node.gene==search_array[k][j] && g.links[i].target.node.gene!=prevTarget){
+          if (lengthAlignments1[j]=='not exists');
+          else if (g.links[i].target.node.gene==search_array[k][j] && g.links[i].target.node.gene!=prevTarget){
             HitsArraySequence.push({source: g.links[i].source.node , hit : g.links[i].target.node , typesearch : 'BLAST' , numRelations : '-' , positionSource : g.links[i].source.node.indexGeral , positionTarget : g.links[i].target.node.indexGeral , lengthAlignment : lengthAlignments1[j] , alignmentStart : alignmentPositionStart[j] , alignmentScore : alignScore1[j] , referenceStart : refStart1[j] , subjectEnd : subEnd1[j], sequenceSubject: seqSub1[j], sequenceQuery: seqQuery1[j], sequenceMatch: seqmatch1[j]}); 
             prevTarget=g.links[i].target.node.gene;
           }

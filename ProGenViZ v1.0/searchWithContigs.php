@@ -593,10 +593,11 @@
         else $MinAlign=$_POST['Min_AlignS'];
         $refgenome=$_POST['GenomeToSearch'];
         exec("python makeComparisons/database_search_inputSeq.py $search_sequence $refgenome $evalue $MinAlign $wherePath",$out);
-        array_push($_SESSION['ArrayBLAST[]'], $identifier);
+        $ToArrayBLAST=$refgenome.$_POST['identifierS']; 
+        array_push($_SESSION['ArrayBLAST[]'], $ToArrayBLAST);
         $_SESSION["SearchByBLAST"]="yes";
         $outGenesS=$out[0];
-        if ($outGenesS!=null){
+        if ($outGenesS!=null && $outGenesS!='not exists'){
           $numOutGenes=explode('---',$outGenesS);
           $Indentifiers="";
           if ($_SESSION['identifiers']==null){
@@ -680,7 +681,81 @@
               array_push($_SESSION['string_database'],$outGenesS);
           }
         }
-        else $showModalNoMatch='yes';
+        else{
+          if ($_SESSION['identifiers']==null){
+            $_SESSION['identifiers']=array();
+            array_push($_SESSION['identifiers'],"not exists");
+          }
+          else{
+            array_push($_SESSION['identifiers'],"not exists");
+          }
+          if ($_SESSION['searchLengthArray']==null){
+            $_SESSION['searchLengthArray']=array();
+            array_push($_SESSION['searchLengthArray'],"not exists");
+          }
+          else{
+            array_push($_SESSION['searchLengthArray'],"not exists");
+          }
+          if ($_SESSION['alignment_position']==null){
+            $_SESSION['alignment_position']=array();
+            array_push($_SESSION['alignment_position'],"not exists");
+          }
+          else{
+            array_push($_SESSION['alignment_position'],"not exists");
+          }
+          if ($_SESSION['alignScore']==null){
+            $_SESSION['alignScore']=array();
+            array_push($_SESSION['alignScore'],"not exists");
+          }
+          else{
+            array_push($_SESSION['alignScore'],"not exists");
+          }
+          if ($_SESSION['refStart']==null){
+            $_SESSION['refStart']=array();
+            array_push($_SESSION['refStart'],"not exists");
+          }
+          else{
+            array_push($_SESSION['refStart'],"not exists");
+          }
+          if ($_SESSION['subEnd']==null){
+            $_SESSION['subEnd']=array();
+            array_push($_SESSION['subEnd'],"not exists");
+          }
+          else{
+            array_push($_SESSION['subEnd'],"not exists");
+          }
+          if ($_SESSION['seqQuery']==null){
+            $_SESSION['seqQuery']=array();
+            array_push($_SESSION['seqQuery'],"not exists");
+          }
+          else{
+            array_push($_SESSION['seqQuery'],"not exists");
+          }
+          if ($_SESSION['seqsub']==null){
+            $_SESSION['seqsub']=array();
+            array_push($_SESSION['seqsub'],"not exists");
+          }
+          else{
+            array_push($_SESSION['seqsub'],"not exists");
+          }
+          if ($_SESSION['seqmatch']==null){
+            $_SESSION['seqmatch']=array();
+            array_push($_SESSION['seqmatch'],"not exists");
+          }
+          else{
+            array_push($_SESSION['seqmatch'],"not exists");
+          }
+
+          if ($_SESSION['string_database']==null){
+              $_SESSION['string_database']=array();
+
+              array_push($_SESSION['string_database'],'not exists');
+          }
+          else{
+              array_push($_SESSION['string_database'],'not exists');
+          }
+          $showModalNoMatchExt='yes';
+        }
 
     }
 
@@ -1079,7 +1154,7 @@
           array_push($_SESSION['ArrayBLAST[]'], $querygene);
           $_SESSION['prevQueryGene']=$querygene;
           $outGenes=$out[0];
-          if ($outGenes!=null){
+          if ($outGenes!=null && $outGenes!='not exists'){
           $numOutGenes=explode('---',$outGenes);
           $Indentifiers="";
           if ($_SESSION['identifiers']==null){
@@ -1154,6 +1229,71 @@
             array_push($_SESSION['seqmatch'],$out[8]);
           }
         }
+        else{
+          if ($_SESSION['identifiers']==null){
+            $_SESSION['identifiers']=array();
+            array_push($_SESSION['identifiers'],"not exists");
+          }
+          else{
+            array_push($_SESSION['identifiers'],"not exists");
+          }
+          if ($_SESSION['searchLengthArray']==null){
+            $_SESSION['searchLengthArray']=array();
+            array_push($_SESSION['searchLengthArray'],"not exists");
+          }
+          else{
+            array_push($_SESSION['searchLengthArray'],"not exists");
+          }
+          if ($_SESSION['alignment_position']==null){
+            $_SESSION['alignment_position']=array();
+            array_push($_SESSION['alignment_position'],"not exists");
+          }
+          else{
+            array_push($_SESSION['alignment_position'],"not exists");
+          }
+          if ($_SESSION['alignScore']==null){
+            $_SESSION['alignScore']=array();
+            array_push($_SESSION['alignScore'],"not exists");
+          }
+          else{
+            array_push($_SESSION['alignScore'],"not exists");
+          }
+          if ($_SESSION['refStart']==null){
+            $_SESSION['refStart']=array();
+            array_push($_SESSION['refStart'],"not exists");
+          }
+          else{
+            array_push($_SESSION['refStart'],"not exists");
+          }
+          if ($_SESSION['subEnd']==null){
+            $_SESSION['subEnd']=array();
+            array_push($_SESSION['subEnd'],"not exists");
+          }
+          else{
+            array_push($_SESSION['subEnd'],"not exists");
+          }
+          if ($_SESSION['seqQuery']==null){
+            $_SESSION['seqQuery']=array();
+            array_push($_SESSION['seqQuery'],"not exists");
+          }
+          else{
+            array_push($_SESSION['seqQuery'],"not exists");
+          }
+          if ($_SESSION['seqsub']==null){
+            $_SESSION['seqsub']=array();
+            array_push($_SESSION['seqsub'],"not exists");
+          }
+          else{
+            array_push($_SESSION['seqsub'],"not exists");
+          }
+          if ($_SESSION['seqmatch']==null){
+            $_SESSION['seqmatch']=array();
+            array_push($_SESSION['seqmatch'],"not exists");
+          }
+          else{
+            array_push($_SESSION['seqmatch'],"not exists");
+          }
+        }
         }
       }
       else $outGenes=null;
@@ -1180,9 +1320,15 @@
       }
       else{
         if ($prevQuerygene!=$querygene){
-         if ($_SESSION['string_database']==null) $string_array='null';
-         else $string_array=$_SESSION['string_database'];
-         $showModalNoMatch='yes';
+         if ($_SESSION['string_database']==null){
+          $_SESSION['string_database']=array();
+          array_push($_SESSION['string_database'],"not exists");
+         } 
+         else{
+          array_push($_SESSION['string_database'],"not exists");
+          $string_array=$_SESSION['string_database'];
+          }
+        $showModalNoMatch='yes';
         }
         else{
          $showModalNoMatch='no';
@@ -1345,6 +1491,7 @@
         var alreadyshownmodal="<?php echo $_SESSION['alreadyshownmodal'];?>";
         var showmodalGFFBLAST="<?php echo $showmodalGFFBLAST;?>";
         var alreadyShownUpload="<?php echo $_SESSION['alreadyShownUpload'];?>";
+        var showModalNoMatchExt="<?php echo $showModalNoMatchExt;?>";
 
         if (string_array=='null' && searchBysequence=='no') search_array=null; 
         else if (searchBysequence=='yes'){
@@ -1356,7 +1503,6 @@
               search_array.push(string_array[i].split("---"));
              }
           }
-          
         }
         else{
          string_array=string_array.replace(/---/g," ");
@@ -1985,7 +2131,8 @@ if(isset($_POST['exclude_hypothetical']));
                   $parts = explode('...', $_SESSION['ArrayBLAST[]'][$i]);
                   $parts1= explode('_', $parts[1]);
                   $arrayLess=array_pop($parts1);
-                  $parts2=implode("_",$parts1);
+                  if (count($parts1)==0) $parts2=$parts[1];
+                  else $parts2=implode("_",$parts1);
                   echo '<tr><td class="FontModals">'.$parts2.'</td><td class="FontModals">BLAST&nbsp;Search</td><td>';
                     if(isset($_POST['exclude_hypothetical'])){
                           echo '<form method="post" action = "searchWithContigs.php">';
@@ -2115,6 +2262,22 @@ if(isset($_POST['exclude_hypothetical']));
         <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">No match for Sequence</li></h4>
       </div>
       <div class="modal-body"><li class="FontModals">No matches were found using the <?php echo $querygenome[1].' gene from the '.$querygenome[0].' genome on the '.$refgen.' position genome.';?>
+      </li></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModalNoMatchExt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">No match for Sequence</li></h4>
+      </div>
+      <div class="modal-body"><li class="FontModals">No matches were found.
       </li></div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>

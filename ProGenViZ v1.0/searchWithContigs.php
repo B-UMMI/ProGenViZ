@@ -583,6 +583,7 @@
 
 
     if(isset($_POST['SearchForSequence'])) {
+        $_SESSION['isSearchSequence']='yes';
         $wherePath=$_SESSION['userPath'];
         $search_sequence = $_POST['SeqToSearch'];  
         $search_sequence = preg_replace('/\s+/', '', $search_sequence);

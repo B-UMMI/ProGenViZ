@@ -37,6 +37,15 @@ var prep_data = function(plot_info, nodes) {
   check_nodes(nodes);
 
   var countAllNodes=-1;
+  var prevGenome="1";
+  var genomesOrdered=[];
+  var prevGenome='0';
+
+  var orderByGenome = function(d) {
+    if (prevGenome!=d.genome) genomesOrdered[d.genome]=[];
+    genomesOrdered[d.genome].push(d);
+    prevGenome=d.genome;
+  }
 
   var index_by_node_name = function(d) {
     countAllNodes+=1;
@@ -51,8 +60,19 @@ var prep_data = function(plot_info, nodes) {
   for (i in g.nodes) {
     for (j in g.nodes[i]){
       var contig = g.nodes[i][j];
-      contig.forEach(index_by_node_name);
+      contig.forEach(orderByGenome);
     }
+  }
+
+
+  var countOrderedGenomes=0;
+  
+  for (i in genomesOrdered){
+    countOrderedGenomes+=1;
+    indexToUse=String(countOrderedGenomes);
+    var contig=genomesOrdered[indexToUse];
+    contig.forEach(index_by_node_name);
+    
   }
   
 

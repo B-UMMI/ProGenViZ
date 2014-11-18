@@ -564,7 +564,6 @@
       $exportType=$_POST['ExportType'];
       $posGinteger=intval($exportgenome)-1;
       $exportFile=$_SESSION['array_path[]'][$posGinteger];
-      echo "<div id='check-upload'>".$posGinteger."</div>";
       $partsFile=explode('/',$exportFile);
       $fileNameToExport=$partsFile[count($partsFile)-1];
       $justN=explode('.',$fileNameToExport);

@@ -1,5 +1,5 @@
 from Bio import SeqIO
-from BCBio import GFF
+#from BCBio import GFF
 from Bio.Blast import NCBIXML
 from Bio.Blast.Applications import NcbiblastnCommandline
 import sys

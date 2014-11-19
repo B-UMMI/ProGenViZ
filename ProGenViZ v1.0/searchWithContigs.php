@@ -1393,7 +1393,7 @@
           $geneBegin=$_POST['geneBegin'];
           $geneEnd=$_POST['geneEnd'];
           exec("python parsers/AddTail.py $wherePath $pathToSequence");
-          $path = "cd Prodigal/Prodigal-2.60 && ./prodigal -i ../../uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > ../../uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
+          $path = "prodigal -i uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
           exec("$path");
           exec("python parsers/AnnotateRegion.py $wherePath $searchRegion $num_filesArray $geneBegin $geneEnd",$contigToExport);
           $Topass=$searchR2[0].'...'.$contigToExport[0];

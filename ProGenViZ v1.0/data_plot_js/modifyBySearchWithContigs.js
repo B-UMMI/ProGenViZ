@@ -827,7 +827,7 @@ if(searchByBLAST=='yes'){
 }
 
 //Information for the Search by BLAST Table
-if((searchBysequence=='yes' && searchNCBI!='yes')|| editInfo=='yes'){
+if(searchBysequence=='yes' && searchNCBI!='yes'){
   prevLink='';
 
   for (k in search_array){ 

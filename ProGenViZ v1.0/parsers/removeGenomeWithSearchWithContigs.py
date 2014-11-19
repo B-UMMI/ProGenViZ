@@ -87,12 +87,18 @@ for i in range(1, lastline):
 			imports = imports.split(']}')[0]
 			imports = imports.split(',')
 			for imported in imports:
-				genomeImport=array[2]+'...'
-				if genomeImport in imported:
-					line=line.replace(imported+",","")
-					line=line.replace(imported,"")
-					line=line.strip(',')
-					#print line
+				if imported!="":
+					imp=imported.split('"')[1]
+					impGenome=imp.split("...")[0]
+					if int(impGenome)>int(PartToChange):
+						newN=str(int(impGenome)-1)
+						newimported=imported.replace(impGenome+'...',newN+'...')
+						line=line.replace(imported,newimported)
+					elif int(impGenome)==int(PartToChange):
+						line=line.replace(imported+",","")
+						line=line.replace(imported,"")
+						line=line.strip(',')
+						#print line
 			if i==lastline-2:
 				#print line
 				line=line.replace(']},',']}')

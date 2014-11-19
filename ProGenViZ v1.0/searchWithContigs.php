@@ -564,6 +564,7 @@
       $exportType=$_POST['ExportType'];
       $posGinteger=intval($exportgenome)-1;
       $exportFile=$_SESSION['array_path[]'][$posGinteger];
+      echo "<div id='check-upload'>".$posGinteger."</div>";
       $partsFile=explode('/',$exportFile);
       $fileNameToExport=$partsFile[count($partsFile)-1];
       $justN=explode('.',$fileNameToExport);
@@ -991,13 +992,24 @@
         $stringToBe=(string)(intval($positionToBe)+1);
         $toChange=$stringPos."...";
         $toBe=$stringToBe."...";
-        for($i=0; $i < count($_SESSION['string_database']); $i++){
-          $GenomeInUse= explode('...', $_SESSION['string_database'][$i]);
-          if ($GenomeInUse[0]==$stringPos){
-            $_SESSION['string_database'][$i]= str_replace($toChange, $toBe, $_SESSION['string_database'][$i]);
+        if ($_SESSION['isSearchSequence']=='yes'){
+          for($i=0; $i < count($_SESSION['string_database']); $i++){
+            $GenomeInUse= explode('...', $_SESSION['string_database'][$i]);
+            if ($GenomeInUse[0]==$stringPos){
+              $_SESSION['string_database'][$i]= str_replace($toChange, $toBe, $_SESSION['string_database'][$i]);
+            }
+            if ($GenomeInUse[0]==$stringToBe){
+              $_SESSION['string_database'][$i]= str_replace($toBe, $toChange, $_SESSION['string_database'][$i]);
+            }
           }
-          if ($GenomeInUse[0]==$stringToBe){
-            $_SESSION['string_database'][$i]= str_replace($toBe, $toChange, $_SESSION['string_database'][$i]);
+          for($i=0; $i < count($_SESSION['ArrayBLAST[]']);$i++){
+            $GenomeInUse= explode('...', $_SESSION['ArrayBLAST[]'][$i]);
+            if ($GenomeInUse[0]==$stringPos){
+              $_SESSION['ArrayBLAST[]'][$i]= str_replace($toChange, $toBe, $_SESSION['ArrayBLAST[]'][$i]);
+            }
+            if ($GenomeInUse[0]==$stringToBe){
+              $_SESSION['ArrayBLAST[]'][$i]= str_replace($toBe, $toChange, $_SESSION['ArrayBLAST[]'][$i]);
+            }
           }
         }
         exec("python parsers/ChangePosition.py $wherePath $currentPos $positionToBe");
@@ -1021,6 +1033,24 @@
     if($_SESSION['editInfo']=='yes'){
       $genomeToChange= explode('...', $nameToChange);
       $fileToChange=$array_path[intval($genomeToChange[0])-1];
+      $parts=explode('_', $genomeToChange[1]);
+      $ident=$parts[count($parts)-1];
+      if ($_SESSION['isSearchSequence']=='yes'){
+        for($i=0; $i < count($_SESSION["string_database"]);$i++){
+          if (strpos($_SESSION["string_database"][$i],$nameToChange) !== false){
+            $Name=$genomeToChange[0].'...'.$editName.'_'.$ident;
+            $str = str_replace($nameToChange, $Name, $_SESSION["string_database"][$i]);
+            $_SESSION["string_database"][$i]=$str;
+          }
+        }
+        for($i=0; $i < count($_SESSION['ArrayBLAST[]']);$i++){
+          if (strpos($_SESSION['ArrayBLAST[]'][$i],$nameToChange) !== false){
+            $Name=$genomeToChange[0].'...'.$editName.'_'.$ident;
+            $str = str_replace($nameToChange, $Name, $_SESSION['ArrayBLAST[]'][$i]);
+            $_SESSION['ArrayBLAST[]'][$i]=$str;
+          }
+        }
+      }
       exec("python parsers/edit_infoWithContigs.py $wherePath $fileToChange $nameToChange $editName $productToChange $editProduct $geneBegin");
     }
     else if ($_SESSION['removeBLAST'] == 'yes'){
@@ -1036,11 +1066,6 @@
     else if (isset($_POST['exportContig'])){
       $modalDownloadExport='yes';
       $fileName=$justName;
-      echo "<div id='check-upload'>".$wherePath."</div>";
-      echo "<div id='check-upload'>".$exportgenome."</div>";
-      echo "<div id='check-upload'>".$exportType."</div>";
-      echo "<div id='check-upload'>".$fileName."</div>";
-      echo "<div id='check-upload'>".$exportContig."</div>";
       exec("python parsers/exportSingleContigs.py $wherePath $exportgenome $exportType $fileName $exportContig",$moreContig);
       $moreContigs=$moreContig[0];
     }
@@ -1368,7 +1393,7 @@
           $geneBegin=$_POST['geneBegin'];
           $geneEnd=$_POST['geneEnd'];
           exec("python parsers/AddTail.py $wherePath $pathToSequence");
-          $path = "prodigal -i uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
+          $path = "cd Prodigal/Prodigal-2.60 && ./prodigal -i ../../uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > ../../uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
           exec("$path");
           exec("python parsers/AnnotateRegion.py $wherePath $searchRegion $num_filesArray $geneBegin $geneEnd",$contigToExport);
           $Topass=$searchR2[0].'...'.$contigToExport[0];
@@ -1447,6 +1472,8 @@
   }
     }
   }
+
+  #echo "<div id='check-upload'>".$_SESSION['string_database'][0]."</div>";
 
    ?>
 

@@ -137,6 +137,57 @@
       unset($path_valueProv[$path_remove]);
       $path_value = array_values($path_valueProv);
       $genomeToRemove=intval($path_remove)+1;
+      if ($_SESSION['isSearchSequence']=='yes'){
+
+          $newDatabaseString=array();
+
+          for($i=0; $i < count($_SESSION['string_database']); $i++){
+            if ($_SESSION['string_database'][$i]=='not exists'){
+              unset($_SESSION['ArrayBLAST[]'][$i]);
+              $newArray=array_values($_SESSION['ArrayBLAST[]']);
+              $_SESSION['ArrayBLAST[]']=$newArray;
+            }
+            else{
+              $GenomeInUse= explode('...', $_SESSION['string_database'][$i]);
+              #echo "<div id='check-upload'>".$GenomeInUse[0]."</div>";
+              if (intval($GenomeInUse[0])>$genomeToRemove+1){
+                $toChange=$GenomeInUse[0]."...";
+                $toBe=strval(intval($GenomeInUse[0])-1)."...";
+                #echo "<div id='check-upload'>".$toChange."</div>";
+                #echo "<div id='check-upload'>".$toBe."</div>";
+                $stringdatabase= str_replace($toChange, $toBe, $_SESSION['string_database'][$i]);
+                array_push($newDatabaseString,$stringdatabase);
+                #echo "<div id='check-upload'>".$stringdatabase."</div>";
+              }
+              else if (intval($GenomeInUse[0])==1 && $genomeToRemove!=1){
+                if ($genomeToRemove!=count($_SESSION['array_path[]'])){
+                  array_push($newDatabaseString,$_SESSION['string_database'][$i]);
+                }
+              }
+            }
+          }
+          $_SESSION['string_database']=$newDatabaseString;
+          #echo "<div id='check-upload'>".$_SESSION['string_database'][0]."</div>";
+
+          $newBLASTString=array();
+          for($i=0; $i < count($_SESSION['ArrayBLAST[]']);$i++){
+            $GenomeInUse= explode('...', $_SESSION['ArrayBLAST[]'][$i]);
+            #echo "<div id='check-upload'>".$GenomeInUse[0]."</div>";
+            #echo "<div id='check-upload'>".$genomeToRemove."</div>";
+            #echo "<div id='check-upload'>".count($_SESSION['array_path[]'])."</div>";
+            if (intval($GenomeInUse[0])>$genomeToRemove && !($genomeToRemove==1 && intval($GenomeInUse[0]) == count($_SESSION['array_path[]']))){
+              $toChange=$GenomeInUse[0]."...";
+              $toBe=strval(intval($GenomeInUse[0])-1)."...";
+              $stringdatabase= str_replace($toChange, $toBe, $_SESSION['ArrayBLAST[]'][$i]);
+              array_push($newBLASTString,$stringdatabase);
+            }
+          }
+          $_SESSION['ArrayBLAST[]']=$newBLASTString;
+          #echo "<div id='check-upload'>".$_SESSION['ArrayBLAST[]'][0]."</div>";
+      }
+      #echo "<div id='check-upload'>".count($_SESSION['string_database'])."</div>";
+      #echo "<div id='check-upload'>".count($_SESSION['ArrayBLAST[]'])."</div>";
+
       exec("python parsers/removeGenomeWithSearchWithContigs.py $wherePath $genomeToRemove");
       $_SESSION['array_path[]']=$path_value;
       $_SESSION['searchArray[]']=null;

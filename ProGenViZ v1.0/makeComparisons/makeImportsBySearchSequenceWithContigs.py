@@ -33,6 +33,9 @@ for i in range(1, lastline):
 		gene = linha[11]
 		begin = linha[19]
 		name = linha[3]
+		if 'mfd' in gene:
+			print gene
+			print querygene
 		if querygene==gene and (prevSourceBegin != begin or name in gene) and prevName!=name:
 			if name in gene:
 				prevName=name

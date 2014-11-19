@@ -12,11 +12,12 @@ if geneToChange!='null':
 	genome=geneToChange.split("...")[0]
 ToRemove=geneToChange.split("_")
 toRemove='_'+ToRemove[len(ToRemove)-1]
-geneToChange=geneToChange.replace(toRemove,"")
+#geneToChange=geneToChange.replace(toRemove,"")
+geneToChange=geneToChange.split("...")[1]
 newGene=array[4]
 if newGene!='null':
 	newGene=newGene.replace("---"," ")
-	newGene=genome+'...'+newGene
+	newGene+=toRemove
 else:
 	newGene=geneToChange
 
@@ -131,3 +132,29 @@ result.close()
 
 os.remove(openwhich3)
 os.rename(openwhere3,openwhich3)
+
+openwhich4='uploads/' + path + '/'+ path +'_inputWithSequences.json'
+posIni=open(openwhich4,'r')
+hipo=""
+openwhere4='uploads/' + path + '/'+ path +'_inputWithSequencesP.json'
+result=open(openwhere4,"w")
+os.chmod(openwhere4, 0755)
+prevBegin=''
+for line in posIni:
+	if "{\"gene\":" in line:
+		linha=line.split("\"")
+		first_last=linha[0].strip()
+		print geneToChange
+		if geneToChange in str(linha[11]) and productToChange in line:
+			line=line.replace(productToChange,newProduct)
+		if geneToChange in line:
+			line=line.replace(geneToChange,str(newGene))
+		result.write(line)
+	else:
+		result.write(line)
+
+posIni.close()
+result.close()
+
+os.remove(openwhich4)
+os.rename(openwhere4,openwhich4)

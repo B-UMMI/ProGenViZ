@@ -140,49 +140,148 @@
       if ($_SESSION['isSearchSequence']=='yes'){
 
           $newDatabaseString=array();
+          $newDatabaseString1=array();
+          $newDatabaseString2=array();
+          $newDatabaseString3=array();
+          $newDatabaseString4=array();
+          $newDatabaseString5=array();
+          $newDatabaseString6=array();
+          $newDatabaseString7=array();
+          $newDatabaseString8=array();
+          $newDatabaseString9=array();
+          $newDatabaseString10=array();
 
           for($i=0; $i < count($_SESSION['string_database']); $i++){
-            if ($_SESSION['string_database'][$i]=='not exists'){
-              unset($_SESSION['ArrayBLAST[]'][$i]);
-              $newArray=array_values($_SESSION['ArrayBLAST[]']);
-              $_SESSION['ArrayBLAST[]']=$newArray;
+            if ($_SESSION['string_database'][$i]=='not exists');
+            else if (strpos($_SESSION['string_database'][$i],'BLASTsearch') !== false){
+              $_SESSION["SearchByBLAST"]="no";
             }
             else{
               $GenomeInUse= explode('...', $_SESSION['string_database'][$i]);
               #echo "<div id='check-upload'>".$GenomeInUse[0]."</div>";
-              if (intval($GenomeInUse[0])>$genomeToRemove+1){
+              if (intval($GenomeInUse[0])==$genomeToRemove);
+              else if (intval($GenomeInUse[0])>$genomeToRemove+1){
                 $toChange=$GenomeInUse[0]."...";
                 $toBe=strval(intval($GenomeInUse[0])-1)."...";
                 #echo "<div id='check-upload'>".$toChange."</div>";
                 #echo "<div id='check-upload'>".$toBe."</div>";
                 $stringdatabase= str_replace($toChange, $toBe, $_SESSION['string_database'][$i]);
                 array_push($newDatabaseString,$stringdatabase);
+                array_push($newDatabaseString1,$_SESSION['ArrayBLAST[]'][$i]);
+                array_push($newDatabaseString2,$_SESSION['searchLengthArray'][$i]);
+                array_push($newDatabaseString3,$_SESSION['alignment_position'][$i]);
+                array_push($newDatabaseString4,$_SESSION['alignScore'][$i]);
+                array_push($newDatabaseString5,$_SESSION['refStart'][$i]);
+                array_push($newDatabaseString6,$_SESSION['subEnd'][$i]);
+                array_push($newDatabaseString7,$_SESSION['seqQuery'][$i]);
+                array_push($newDatabaseString8,$_SESSION['seqsub'][$i]);
+                array_push($newDatabaseString9,$_SESSION['seqmatch'][$i]);
+                array_push($newDatabaseString10,$_SESSION['identifiers'][$i]);
                 #echo "<div id='check-upload'>".$stringdatabase."</div>";
+              }
+              else if ($genomeToRemove==count($_SESSION['array_path[]'])){
+                if (intval($GenomeInUse[0])==1);
+                else {
+                  array_push($newDatabaseString,$_SESSION['string_database'][$i]);
+                  array_push($newDatabaseString1,$_SESSION['ArrayBLAST[]'][$i]);
+                  array_push($newDatabaseString2,$_SESSION['searchLengthArray'][$i]);
+                  array_push($newDatabaseString3,$_SESSION['alignment_position'][$i]);
+                  array_push($newDatabaseString4,$_SESSION['alignScore'][$i]);
+                  array_push($newDatabaseString5,$_SESSION['refStart'][$i]);
+                  array_push($newDatabaseString6,$_SESSION['subEnd'][$i]);
+                  array_push($newDatabaseString7,$_SESSION['seqQuery'][$i]);
+                  array_push($newDatabaseString8,$_SESSION['seqsub'][$i]);
+                  array_push($newDatabaseString9,$_SESSION['seqmatch'][$i]);
+                  array_push($newDatabaseString10,$_SESSION['identifiers'][$i]);
+                }
               }
               else if (intval($GenomeInUse[0])==1 && $genomeToRemove!=1){
                 if ($genomeToRemove!=count($_SESSION['array_path[]'])){
                   array_push($newDatabaseString,$_SESSION['string_database'][$i]);
+                  array_push($newDatabaseString1,$_SESSION['ArrayBLAST[]'][$i]);
+                  array_push($newDatabaseString2,$_SESSION['searchLengthArray'][$i]);
+                  array_push($newDatabaseString3,$_SESSION['alignment_position'][$i]);
+                  array_push($newDatabaseString4,$_SESSION['alignScore'][$i]);
+                  array_push($newDatabaseString5,$_SESSION['refStart'][$i]);
+                  array_push($newDatabaseString6,$_SESSION['subEnd'][$i]);
+                  array_push($newDatabaseString7,$_SESSION['seqQuery'][$i]);
+                  array_push($newDatabaseString8,$_SESSION['seqsub'][$i]);
+                  array_push($newDatabaseString9,$_SESSION['seqmatch'][$i]);
+                  array_push($newDatabaseString10,$_SESSION['identifiers'][$i]);
                 }
               }
             }
           }
           $_SESSION['string_database']=$newDatabaseString;
+          $_SESSION['ArrayBLAST[]']=$newDatabaseString1;
+          $_SESSION['searchLengthArray']=$newDatabaseString2;
+          $_SESSION['alignment_position']=$newDatabaseString3;
+          $_SESSION['alignScore']=$newDatabaseString4;
+          $_SESSION['refStart']=$newDatabaseString5;
+          $_SESSION['subEnd']=$newDatabaseString6;
+          $_SESSION['seqQuery']=$newDatabaseString7;
+          $_SESSION['seqsub']=$newDatabaseString8;
+          $_SESSION['seqmatch']=$newDatabaseString9;
+          $_SESSION['identifiers']=$newDatabaseString10;
           #echo "<div id='check-upload'>".$_SESSION['string_database'][0]."</div>";
 
           $newBLASTString=array();
+          $newDatabaseString1=array();
+          $newDatabaseString2=array();
+          $newDatabaseString3=array();
+          $newDatabaseString4=array();
+          $newDatabaseString5=array();
+          $newDatabaseString6=array();
+          $newDatabaseString7=array();
+          $newDatabaseString8=array();
+          $newDatabaseString9=array();
+          $newDatabaseString10=array();
+
           for($i=0; $i < count($_SESSION['ArrayBLAST[]']);$i++){
             $GenomeInUse= explode('...', $_SESSION['ArrayBLAST[]'][$i]);
             #echo "<div id='check-upload'>".$GenomeInUse[0]."</div>";
             #echo "<div id='check-upload'>".$genomeToRemove."</div>";
             #echo "<div id='check-upload'>".count($_SESSION['array_path[]'])."</div>";
-            if (intval($GenomeInUse[0])>$genomeToRemove && !($genomeToRemove==1 && intval($GenomeInUse[0]) == count($_SESSION['array_path[]']))){
+            if (intval($GenomeInUse[0])<$genomeToRemove){
+                array_push($newBLASTString,$_SESSION['ArrayBLAST[]'][$i]);
+                array_push($newDatabaseString2,$_SESSION['searchLengthArray'][$i]);
+                array_push($newDatabaseString3,$_SESSION['alignment_position'][$i]);
+                array_push($newDatabaseString4,$_SESSION['alignScore'][$i]);
+                array_push($newDatabaseString5,$_SESSION['refStart'][$i]);
+                array_push($newDatabaseString6,$_SESSION['subEnd'][$i]);
+                array_push($newDatabaseString7,$_SESSION['seqQuery'][$i]);
+                array_push($newDatabaseString8,$_SESSION['seqsub'][$i]);
+                array_push($newDatabaseString9,$_SESSION['seqmatch'][$i]);
+                array_push($newDatabaseString10,$_SESSION['identifiers'][$i]);
+              
+            }
+            else if (intval($GenomeInUse[0])>$genomeToRemove && !($genomeToRemove==1 && intval($GenomeInUse[0]) == count($_SESSION['array_path[]']))){
               $toChange=$GenomeInUse[0]."...";
               $toBe=strval(intval($GenomeInUse[0])-1)."...";
               $stringdatabase= str_replace($toChange, $toBe, $_SESSION['ArrayBLAST[]'][$i]);
               array_push($newBLASTString,$stringdatabase);
+              array_push($newDatabaseString2,$_SESSION['searchLengthArray'][$i]);
+              array_push($newDatabaseString3,$_SESSION['alignment_position'][$i]);
+              array_push($newDatabaseString4,$_SESSION['alignScore'][$i]);
+              array_push($newDatabaseString5,$_SESSION['refStart'][$i]);
+              array_push($newDatabaseString6,$_SESSION['subEnd'][$i]);
+              array_push($newDatabaseString7,$_SESSION['seqQuery'][$i]);
+              array_push($newDatabaseString8,$_SESSION['seqsub'][$i]);
+              array_push($newDatabaseString9,$_SESSION['seqmatch'][$i]);
+              array_push($newDatabaseString10,$_SESSION['identifiers'][$i]);
             }
+
           }
           $_SESSION['ArrayBLAST[]']=$newBLASTString;
+          $_SESSION['searchLengthArray']=$newDatabaseString2;
+          $_SESSION['alignment_position']=$newDatabaseString3;
+          $_SESSION['alignScore']=$newDatabaseString4;
+          $_SESSION['refStart']=$newDatabaseString5;
+          $_SESSION['subEnd']=$newDatabaseString6;
+          $_SESSION['seqQuery']=$newDatabaseString7;
+          $_SESSION['seqsub']=$newDatabaseString8;
+          $_SESSION['seqmatch']=$newDatabaseString9;
+          $_SESSION['identifiers']=$newDatabaseString10;
           #echo "<div id='check-upload'>".$_SESSION['ArrayBLAST[]'][0]."</div>";
       }
       #echo "<div id='check-upload'>".count($_SESSION['string_database'])."</div>";

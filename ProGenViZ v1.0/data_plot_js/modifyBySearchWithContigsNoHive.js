@@ -56,6 +56,30 @@ if(isSearchMade == 'yes' && numFilesAfterSearch>0 && errorUpload == 'no' && alre
         });
 }
 
+if(ModalSNP == 'yes'){
+            $(window).load(function(){
+              $('#myModalShowSNP').modal('show');
+        });
+}
+
+if(isSearchMade == 'yes' && numFilesAfterSearch>0 && errorUpload == 'no' && alreadyShownUpload=='no'){
+            $(window).load(function(){
+              $('#myModalFiles').modal('show');
+        });
+}
+
+if (showModalComp=='yes' && alreadyshownmodal=='no'){
+  $(window).load(function(){
+              $('#myModalLinkNotSelected').modal('show');
+        });
+}
+
+if (showmodalGFFBLAST=='yes'){
+  $(window).load(function(){
+              $('#myModalGFFBLAST').modal('show');
+        });
+}
+
 
 if(NCBISearch == 'yes'){
   $(window).load(function(){
@@ -1668,14 +1692,14 @@ $(function () {
         $contextMenu2[0].innerHTML ='';
         $contextMenu2[0].innerText ='';
         $contextMenu2.append('<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">'+
-                              '<form enctype="multipart/form-data" id="ShowAlignSeq" action="searchWithContigs.php" method="POST">'+
+                              '<form enctype="multipart/form-data" id="DetectSNPS" name="DetectSNPS" action="searchWithContigs.php" method="POST">'+
                                      '<input type="hidden" name="sequenceQueryToSee" value="'+SequenceQuery1+'" />'+
                                      '<input type="hidden" name="sequenceTargetToSee" value="'+SequenceTarget1+'" />'+
                                      '<input type="hidden" name="matchesToSee" value="'+matchesToUse+'" />'+
                                      '<input type="hidden" name="nameSource" value="'+nameSource+'" />'+
                                      '<input type="hidden" name="nameTarget" value="'+nameTarget+'" />'+
-                                     '<input type="hidden" name="ShowAlignSeq" value="ShowAlignSeq" />'+
-                            '<button type="submit" class="btn btn-link">Show HSP Aligned</button></form>');
+                                     '<input type="hidden" name="DetectSNPS" value="DetectSNPS" />'+
+                            '<button class="btn btn-link">Show HSP Aligned</button></form></ul>');
               
         $contextMenu2.css({
             display: "block",

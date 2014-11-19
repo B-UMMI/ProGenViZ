@@ -109,9 +109,16 @@
     $productToChange=$_POST['OriginalProduct'];
     $geneBegin=$_POST['geneBegin'];
     $geneEnd=$_POST['geneEnd'];
-    if($editName==null) $editName='null';
+    if($editName==null){
+     $editName1 = preg_replace('/\s+/', '---', $nameToChange);
+     $ed1=explode('...', $editName1);
+     $ed2=explode('_', $ed1[1]);
+     unset($ed2[count($ed2)-1]);
+     $arrayofName=array_values($ed2);
+     $editName = implode("", $arrayofName);
+    }
     else $editName = preg_replace('/\s+/', '---', $editName);
-    if($editProduct==null) $editProduct='null';
+    if($editProduct==null) $editProduct = preg_replace('/\s+/', '---', $productToChange);
     else $editProduct = preg_replace('/\s+/', '---', $editProduct);
     if($nameToChange==null) $nameToChange='null';
     else $nameToChange = preg_replace('/\s+/', '---', $nameToChange);
@@ -130,7 +137,11 @@
      if ($_SESSION['string_database']==null) $_SESSION['string_database']=array();
      $_SESSION['searchBySequence']='yes';
      $_SESSION['AnnotateRegion']='no';
-     $_SESSION['searchbox'] = 'no';
+     if ($_SESSION['searchbox'] == 'yes'){
+      $wherePath=$_SESSION['userPath'];
+      exec("python makeComparisons/makeImportsNullAfterBLAST.py $wherePath",$out);
+      $_SESSION['searchbox'] = 'no';
+     }
      if(isset($_POST['rundatabasesearch'])) $runScripts='yes';
      if(isset($_POST['searchNCBI'])){
       $_SESSION['searchNCBI']='yes';
@@ -165,10 +176,6 @@
       $search_array=null;
       unset($_SESSION['searchArray[]']);
       unset($_SESSION['typesearch[]']);
-     }
-     if ($_SESSION['string_array']!='null'){
-      $wherePath=$_SESSION['userPath'];
-      exec("python makeComparisons/makeImportsNullAfterBLAST.py $wherePath",$out);
      }
      $_SESSION['rundatabasesearch']='yes';
      $_SESSION['searchArray[]']=null;
@@ -564,6 +571,7 @@
       $exportType=$_POST['ExportType'];
       $posGinteger=intval($exportgenome)-1;
       $exportFile=$_SESSION['array_path[]'][$posGinteger];
+      echo "<div id='check-upload'>".$posGinteger."</div>";
       $partsFile=explode('/',$exportFile);
       $fileNameToExport=$partsFile[count($partsFile)-1];
       $justN=explode('.',$fileNameToExport);

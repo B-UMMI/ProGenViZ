@@ -371,6 +371,15 @@
       $_SESSION['searchBySequence']='no';
       $_SESSION['searchArray[]']=null;
       $_SESSION["identities"]=null;
+      $_SESSION['searchLengthArray']=null;
+      $_SESSION['alignment_position']=null;
+      $_SESSION['identifiers']=null;
+      $_SESSION['alignScore']=null;
+      $_SESSION['refStart']=null;
+      $_SESSION['subEnd']=null;
+      $_SESSION['seqQuery']=null;
+      $_SESSION['seqsub']=null;
+      $_SESSION['seqmatch']=null;
       $_SESSION['string_array']="null";
       $_SESSION['string_database']=null;
       $_SESSION['prevQueryGene']='null';
@@ -1400,7 +1409,7 @@
           $geneBegin=$_POST['geneBegin'];
           $geneEnd=$_POST['geneEnd'];
           exec("python parsers/AddTail.py $wherePath $pathToSequence");
-          $path = "prodigal -i uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
+          $path = "cd Prodigal/Prodigal-2.60 && ./prodigal -i ../../uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > ../../uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
           exec("$path");
           exec("python parsers/AnnotateRegion.py $wherePath $searchRegion $num_filesArray $geneBegin $geneEnd",$contigToExport);
           $Topass=$searchR2[0].'...'.$contigToExport[0];

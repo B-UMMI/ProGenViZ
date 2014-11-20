@@ -805,7 +805,6 @@ if(searchByBLAST=='yes'){
     seqmatch1=seqmatch[k].split("...");
     identifiers1=identifiers[k].split("---");
     prevTarget="";
-    console.log(identifiers[k]);
     for (j in lengthAlignments1){
       if (lengthAlignments1[j]=='not exists');
       else if (search_array[k][j].indexOf('BLASTsearch') > -1){

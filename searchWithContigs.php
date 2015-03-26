@@ -600,6 +600,20 @@
       $runScripts='yes';
     }
 
+    if (isset($_POST['referenceFile'])){
+      $_SESSION['searchBySequence']='no';
+      $_SESSION["identities"]=null;
+      $_SESSION['string_array']="null";
+      $_SESSION['string_database']=null;
+      $_SESSION['prevQueryGene']='null';
+      $_SESSION['Numdatabasesearch']=0;
+      $_SESSION['compNull'] = 'yes';
+      $_SESSION['inter-bygene'] = 'no';
+      $_SESSION['inter-byfunction'] = 'no';
+      $_SESSION['searchbox'] = 'no';
+      $runScripts='yes';
+    }
+
     if (isset($_POST['GetSequence'])){
       $runScripts='no';
       $ModalSequence='yes';
@@ -839,11 +853,20 @@
           <li><a href="#" data-toggle="modal" data-target="#myModalHideShow">Hide/Show</a></li>
           <?php
             $hasContigFile='no';
+            $hasFASTAFile="no";
+            $hasGBKFile="no";
             for ($i=0;$i<count($_SESSION['arrayContigs']);$i++){
               if($_SESSION['arrayContigs'][$i]=='yes') $hasContigFile='yes';
             }
+            for ($i=0;$i<count($_SESSION['array_path[]']);$i++){
+              if(strpos($_SESSION['array_path[]'][$i],'.gbk')) $hasGBKFile='yes';
+              if(strpos($_SESSION['array_path[]'][$i],'.fasta')) $hasFASTAFile='yes';
+            }
             if ($hasContigFile=='yes' && count($_SESSION['array_path[]'])>1){
               echo '<li><a href="#" data-toggle="modal" data-target="#myModalAlign">Order Contigs</a></li>';
+            }
+            if ($hasGBKFile=='yes' && $hasFASTAFile=='yes' && count($_SESSION['array_path[]'])>1){
+              echo '<li><a href="#" data-toggle="modal" data-target="#myModalAnnotate">Annotate</a></li>';
             }
           ?>
           <li><a href="#" data-toggle="modal" data-target="#myModalExport">Export Image</a></li>
@@ -1117,6 +1140,32 @@
       unlink($querySequence);
 
     }
+
+    else if (isset($_POST['referenceFile'])){
+      $refGen=$_POST['referenceFile'];
+      $queryGen=$_POST['queryFile'];
+      if (isset($_POST['IsBSR'])) $IsBSR="yes";
+      else $IsBSR="no";
+      $parts=explode('---',$refGen);
+      $genomeRef=$parts[0];
+      $PathRef=$parts[1];
+      $parts1=explode('---',$queryGen);
+      $genomeQuery=$parts1[0];
+      $PathQuery=$parts1[1];
+      #echo "<div id='check-upload'>".$IsBSR."</div>";
+      #echo "<div id='check-upload'>".$PathQuery."</div>";
+      #echo "<div id='check-upload'>".$PathRef."</div>";
+      #echo "<div id='check-upload'>".$wherePath."</div>";
+      #echo "<div id='check-upload'>".$genomeRef."</div>";
+      #echo "<div id='check-upload'>".$genomeQuery."</div>";
+      #echo '<script type=\"text/javascript\">document.write("<div id="loading" src="img/loadingGif.gif">Loading...</div>")</script>';
+      exec("python makeComparisons/SearchAll.py $IsBSR $PathQuery $PathRef $wherePath $genomeRef $genomeQuery");
+      exec("python parsers/setContigs.py $wherePath");
+      exec("python parsers/getSizeWithContigs.py $wherePath");
+      exec("python makeComparisons/makeImportsNullWithContigs.py $wherePath");
+      #echo '<script type=\"text/javascript\">document.removeChild("loading")</script>';
+    }
+
     else{
     
       if (isset($_POST['referenceGenome'])){
@@ -1140,6 +1189,8 @@
         $PathQuery=$parts[1];
         $partToChange=explode(".",$PathQuery);
         $partToChange=".".$partToChange[1];
+        echo "<div id='check-upload'>".$PathRef."</div>";
+        echo "<div id='check-upload'>".$PathQuery."</div>";
         exec("python parsers/FastaFromInput.py $PathQuery $genome");
         $PathQuery=str_replace($partToChange, '.ffn', $PathQuery);
         $execution="nucmer -p ".$pathAligment." ".$PathRef." ".$PathQuery;
@@ -1212,6 +1263,8 @@
           $partsG = explode("...", $querygene);
           $fileSequence='uploads/'.$wherePath.'/Sequence_files/'.$partsG[1].'_sequence.fasta';
           exec("python makeComparisons/database_search.py $querygene $fileSequence $refgenome $evalue $MinAlign $wherePath",$out);
+
+
           array_push($_SESSION['ArrayBLAST[]'], $querygene);
           $_SESSION['prevQueryGene']=$querygene;
           $outGenes=$out[0];
@@ -1409,8 +1462,13 @@
           $geneBegin=$_POST['geneBegin'];
           $geneEnd=$_POST['geneEnd'];
           exec("python parsers/AddTail.py $wherePath $pathToSequence");
-          $path = "cd Prodigal/Prodigal-2.60 && ./prodigal -i ../../uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > ../../uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
+          $path = "prodigal -i /uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > /uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
           exec("$path");
+          #echo "<div id='check-upload'>".$wherePath."</div>";
+          #echo "<div id='check-upload'>".$searchRegion."</div>";
+          #echo "<div id='check-upload'>".$num_filesArray."</div>";
+          #echo "<div id='check-upload'>".$geneBegin."</div>";
+          #echo "<div id='check-upload'>".$geneEnd."</div>";
           exec("python parsers/AnnotateRegion.py $wherePath $searchRegion $num_filesArray $geneBegin $geneEnd",$contigToExport);
           $Topass=$searchR2[0].'...'.$contigToExport[0];
           $pos=strpos($_SESSION["ContigsToExport"],$Topass);
@@ -1706,6 +1764,10 @@
         } 
     }
 
+    function addGif(){
+      document.write('<div id="loading" src="img/loadingGif.gif">Loading...</div>');
+    }
+
       function validateFormSearch() {
         var x = document.forms["searchForm"]["searchbox"].value;
         var y = document.forms["searchForm"]["typesearch"].value;
@@ -1840,6 +1902,14 @@
         }  
       }
 
+      function cbChange(obj) {
+        var cbs = document.getElementsByClassName("cb");
+        for (var i = 0; i < cbs.length; i++) {
+            cbs[i].checked = false;
+        }
+        obj.checked = true;
+      }
+
       function openModals() {
         $('#myModalShowIdentifier').modal('hide');
         $('#myModalSearchForSequence').modal('show');
@@ -1954,11 +2024,12 @@ window.onload = function () {
       <div class="modal-body" class="ModalsSizeFont">
                     <form name="uploadFiles" enctype='multipart/form-data' action='moreuploadWithContigs.php' method='POST' onsubmit="return validateForm();">
                            <li class="FontModals">Choose an Option:</li><select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
+                                     <option value="no" class="FontModals">Single file</option>
                                      <option value="yes" class="FontModals">GFF+Fasta</option>
-                                     <option value="no" class="FontModals">Others</option></select>
-                          <div id="fileOther"></div>
-                          <div id="fileGFF+FASTA"><br><li class="FontModals">Choose a .gff file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/>
-                          <br><li class="FontModals">Choose a .fasta file:</li> <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br></div>
+                                     </select>
+                          <div id="fileOther"><br><li class='FontModals'>Choose one of the supported file formats (.fasta, .gbk, .gff): </li><input name='moreuploadedfile[]' type='file' class='btn btn-default btn-lg'/>
+                          <br><input type='checkbox' name='Iscontig' value='yes'><a class='FontModals'>&nbsp;It is a FASTA file with contigs data</a><br></div>
+                          <div id="fileGFF+FASTA"></div>
                           <div class="modal-footer">
                           <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
                           <input type='submit' class='btn btn-primary btn-lg' value='Upload File' />
@@ -2152,6 +2223,50 @@ if(isset($_POST['exclude_hypothetical']));
           echo '<li class="FontModals">Minimum Identity:</li><input type="name" class="form-control" id="minIde" name="minidentity" placeholder="0.98">';
           echo '<li class="FontModals">Minimum Alignment:</li><input type="name" class="form-control" id="minAl" name="minAlignment" placeholder="500"><br>';
           echo '<input type="submit" class="btn btn-primary btn-lg" name="align-button" value="Run Alignment" />';
+          echo '</form>';
+        ?></p>
+</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModalAnnotate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><a class="FontModalsTitle">Annotate</a></h4>
+      </div>
+      <div class="modal-body"><li class="FontModals">Annotation uses BLAST to check for sequence similarity and Prodigal to predict CDS. You can choose the BSR option or BLASTn.<br>Choose a non-annotated fasta file and a reference.</li>
+        <p>
+        <?php
+        $dir=$_SESSION['folderPath'].'/input_files';
+          $files1 = scandir($dir);
+          $numFiles=count($array_path);
+          echo '<form enctype="multipart/form-data" action="searchWithContigs.php" method="POST" name="AnnotateForm" onsubmit="addGif()">';
+          echo '<li class="FontModals">Reference:</li><select id="reference" class="form-control" name="referenceFile">';
+          for($i=0; $i < $numFiles;$i++){
+            $fileName=explode('/',$array_path[$i]);
+            if(strpos($fileName[3],'gbk') !== false) {
+              echo' <option value="'.($i+1).'---'.$array_path[$i].'">'.($i+1).'&nbsp;-&nbsp;'.$fileName[3].'</option>';
+            }
+          }
+          echo '</select>';
+
+          echo '<li class="FontModals">Query:</li><select id="query" class="form-control" name="queryFile">';
+          for($i=0; $i < $numFiles;$i++){
+            $fileName=explode('/',$array_path[$i]);
+            if((strpos($fileName[3],'fa') !== false || strpos($fileName[3],'fasta') !== false)) {
+              echo' <option value="'.($i+1).'---'.$array_path[$i].'">'.($i+1).'&nbsp;-&nbsp;'.$fileName[3].'</option>';
+            }
+          }
+          echo '</select>';
+          echo "<br><input type='checkbox' name='IsBSR' value='yes' class='cb' onclick='cbChange(this)'><a class='FontModals'>&nbsp;BSR method</a>";
+          echo "<br><input type='checkbox' name='IsNuc' value='yes' class='cb' onclick='cbChange(this)'><a class='FontModals'>&nbsp;BLASTn method</a>";
+          echo '<br><br><input type="submit" class="btn btn-primary btn-lg" name="align-button" value="Run Annotation" />';
           echo '</form>';
         ?></p>
 </div>

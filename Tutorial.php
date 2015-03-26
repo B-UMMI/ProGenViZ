@@ -68,120 +68,41 @@
     </div>
 
   <div class="container theme-showcase">
-
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
-     
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+        <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+      </ol>
       <div class="carousel-inner">
         <div class="item active">
-          <img src="img/MainPage.png" alt=""  width="100%" height="100%">
+          <img src="img/sequenceSearch.png" alt="" class="img-rounded" width="600" height="600" align="right">
           <div class="container" id="car1">
             <div class="carousel-caption">
+              <<h1>Compare multiple prokaryotic genomes</h1>
+              <p>Check for sequence similarity in different genomes.
+              <br>Search for specific regions by name or product.
+              <br>Choose between two visual representations, the Linear and the Hive Plot.</p>
             </div>
           </div>
         </div>
         <div class="item">
-          <img src="img/AddFiles.png" alt="" width="100%" height="80%">
+          <img src="img/exemplohive.png" alt="s" class="img-rounded" width="400" height="400" align="right">
+          <div class="container" id="car2">
+            <div class="carousel-caption">
+              <h1>Order multi-FASTA sequences against a reference</h1><br>
+              <p>Order multiple sequences against a reference using the alignment <br>software NUCmer and visualize the results.</p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/exemplohive2.png" alt="s" class="img-rounded" width="400" height="400" align="right">
           <div class="container" id="car3">
             <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/workstation.png" alt="" width="100%" height="100%">
-          <div class="container" id="car3">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/Info.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/ComparisonMethods.png" alt="" width="100%" height="100%">
-          <div class="container" id="car3">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/ImageExport.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/searchTransporter.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/tableSearch.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/linesSearch.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/beforeBlast1.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/BLAST.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/contig1.png" alt="" width="100%" height="100%">
-          <div class="container" id="car2">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/contigBLAST.png" alt="" width="100%" height="100%">
-          <div class="container" id="car3">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/contigBsearch.png" alt="" width="100%" height="100%">
-          <div class="container" id="car3">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/contigAnnotation.png" alt="" width="100%" height="100%">
-          <div class="container" id="car3">
-            <div class="carousel-caption">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/ExportGff.png" alt="" width="100%" height="100%">
-          <div class="container" id="car3">
-            <div class="carousel-caption">
+              <h1>Annotate sequences</h1>
+              <p>Annotate non-annotated sequences by tranfer from an annotated<br> reference using
+                Prodigal to predict prokaryotic CDS locations<br> and BLAST to check for sequence similarity. <br><br>Annotate regions manually.</p>
             </div>
           </div>
         </div>
@@ -189,6 +110,7 @@
       <a class="left carousel-control" href="#myCarousel" data-slide="prev"></a>
       <a class="right carousel-control" href="#myCarousel" data-slide="next"></a>
     </div>
+
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
     
@@ -203,8 +125,8 @@
           <img src="img/Logo-IMM.png" style="width: 200px; height: 200px; position: right;">
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-7">
-          <p align="justify" style= "font-size:20px; font-family:'Arial';">This is a tutorial that shows how users can use this software to upload their files, search for especific genomic regions,
-                            stablish relationships between genomic regions, annotate sequences, re-annotate regions and export data.</p><p>&nbsp;</p>
+          <li style ="color:white"><p align="justify" style= "font-size:18px; font-family:'Arial';">A video with a walkthrough through the features of ProGenViz is available <a target="_blank" href="https://www.youtube.com/watch?v=F34hbDKzTOg">here</a></p></li>
+          <li style ="color:white"><p align="justify" style= "font-size:18px; font-family:'Arial';">More detailed information about the software available <a href="./Tutorial/DevelopedFrameworkPDF.pdf" download="progenviz.pdf">here</a></li>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-1">
           <img src="img/fcul.png" style="width: 200px; height: 200px;">

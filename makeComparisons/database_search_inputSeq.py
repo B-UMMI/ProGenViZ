@@ -1,5 +1,5 @@
 from Bio import SeqIO
-#from BCBio import GFF
+from BCBio import GFF
 from Bio.Blast import NCBIXML
 from Bio.Blast.Applications import NcbiblastnCommandline
 import sys
@@ -78,7 +78,7 @@ Create_Blastdb(fnaFileOutput)
 #Correr a Query:
 
 blast_out_file = "uploads/" + pathWhere + "/blastdbs/" + "blastResults_blastout" + "_subj.xml"
-cline = NcbiblastnCommandline(query=nameFASTA, db=name,evalue=evalue, out=blast_out_file, outfmt=5)
+cline = NcbiblastnCommandline(query=nameFASTA, db=name,evalue=evalue, out=blast_out_file, outfmt=5, num_alignments=7000, num_descriptions=7000)
 stdout, stderr = cline()
 rec2 = open(blast_out_file)
 blast_records = NCBIXML.parse(rec2)

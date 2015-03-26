@@ -48,6 +48,8 @@ countParts=1
 isThere="no"
 
 prevGeneEnd=-1
+PrevLineProdigal=0
+PrevLineBLAST=1
 
 for i in range(1,lastlineR):
 	geneName=linesR[i].split(";")[0]
@@ -55,26 +57,71 @@ for i in range(1,lastlineR):
 	geneEnd=linesR[i].split(";")[2]
 	geneBeginReal=linesR[i].split(";")[3]
 	geneEndReal=linesR[i].split(";")[4]
-	for j in range(2,lastlineP):
-		addToGenesToUse='yes'
-		AlignBegin=linesP[j].split("_")[1]
-		AlignEnd=linesP[j].split("_")[2]
-		alBeEnd=AlignBegin+"---"+AlignEnd
-		if len(GenesToUse)==0:
-			addToGenesToUse='yes'
-		for z in GenesToUse:
-			if alBeEnd in z:
-				addToGenesToUse='no'
 
-		if int(geneBegin)<=int(AlignBegin) and int(geneEnd)>=int(AlignEnd) and addToGenesToUse=='yes':
-			addToGenesToUse='no'
-			#klker coisa
-			#print AlignBegin+".."+AlignEnd
-			#print geneBegin+"--"+geneEnd
-			prevGeneEnd=geneEnd
-			genome=geneName.split("...")[0]
-			isThere="yes"
-			break
+	threshBLAST = (int(geneBegin) + int(geneEnd)) * 0.1
+
+	for j in range(PrevLineProdigal+1,lastlineP):
+		if linesP[j].startswith(">"):
+			addToGenesToUse='yes'
+			AlignBegin=linesP[j].split("_")[1]
+			AlignEnd=linesP[j].split("_")[2]
+			alBeEnd=AlignBegin+"---"+AlignEnd
+			if len(GenesToUse)==0:
+				addToGenesToUse='yes'
+			for z in GenesToUse:
+				if alBeEnd in z:
+					addToGenesToUse='no'
+
+			threshProdigal = (int(AlignBegin) + int(AlignEnd)) * 0.1
+
+			if int(geneBegin) <= int(AlignBegin) and int(AlignEnd) <= int(geneEnd) and addToGenesToUse=='yes': #Resultados do BLAST englobam os resultados do Prodigal
+				addToGenesToUse='no'
+				#klker coisa
+				#print AlignBegin+".."+AlignEnd
+				#print geneBegin+"--"+geneEnd
+				prevGeneEnd=geneEnd
+				PrevLineProdigal=j
+				genome=geneName.split("...")[0]
+				isThere="yes"
+				break
+
+			elif int(geneBegin) - int(AlignBegin) >= 0 and  int(geneBegin) - int(AlignBegin) <= threshProdigal and int(AlignEnd) - int(geneEnd) >= 0 and int(AlignEnd) - int(geneEnd) <= threshProdigal and addToGenesToUse=='yes': #Results BLAST incluidos no  result Prodigal
+				addToGenesToUse='no'
+				#klker coisa
+				#print AlignBegin+".."+AlignEnd
+				#print geneBegin+"--"+geneEnd
+				prevGeneEnd=geneEnd
+				genome=geneName.split("...")[0]
+				PrevLineProdigal=j
+				isThere="yes"
+				break
+
+			elif int(AlignBegin) - int(geneBegin) >= 0 and int(AlignBegin) - int(geneBegin) <= threshProdigal and int(AlignEnd) - int(geneEnd) >= 0 and int(AlignEnd) - int(geneEnd) <= threshProdigal and addToGenesToUse=='yes': #Inicio do BLAST fora dos resultados do Prodigal mas o final no interior
+				addToGenesToUse='no'
+				#klker coisa
+				#print AlignBegin+".."+AlignEnd
+				#print geneBegin+"--"+geneEnd
+				prevGeneEnd=geneEnd
+				genome=geneName.split("...")[0]
+				PrevLineProdigal=j
+				isThere="yes"
+				break
+
+			elif int(AlignBegin) - int(geneBegin) >= 0 and int(AlignBegin) - int(geneBegin) <= threshProdigal and int(geneEnd) - int(AlignEnd) >= 0 and int(geneEnd) - int(AlignEnd) <= threshProdigal and addToGenesToUse=='yes': #Final do BLAST fora dos resultados do Prodigal mas o inicio no interior
+				addToGenesToUse='no'
+				#klker coisa
+				#print AlignBegin+".."+AlignEnd
+				#print geneBegin+"--"+geneEnd
+				prevGeneEnd=geneEnd
+				genome=geneName.split("...")[0]
+				PrevLineProdigal=j
+				isThere="yes"
+				break
+
+			else:
+				PrevLineProdigal=j
+
+
 	
 	if isThere=="yes":
 		for k in range(1,lastlineIP-1):
@@ -90,10 +137,7 @@ timeToPrint='yes'
 #print '\n'.join([str(x) for x in GenesToUse])
 for x in range(0,lastlineIP):
 	line=linesIP[x].split('"')
-	print x
-	print lastlineIP
 	if x==0 or x==lastlineIP-1:
-		print 'AQUI'
 		fileResult.write(linesIP[x])
 		pasS='yes'
 	else:
@@ -118,7 +162,10 @@ for x in range(0,lastlineIP):
 				print line[27]
 				timeToPrint='no'
 			#ToChange=str(line[3]+"_GAP_"+str(countParts))
-			newLine=linesIP[x].replace('"gene": "'+line[3]+'"','"gene": "'+line[3]+"_GAP_"+str(countParts)+'"')
+			geneString = line[11]
+			geneGenome = geneString.split('...')[0]
+			geneString = geneString.split('...')[1]
+			newLine=linesIP[x].replace('"gene": "'+geneGenome+'...'+geneString+'"','"gene": "'+geneGenome+'...'+line[3]+"_GAP_"+str(countParts)+'"')
 			newLine=newLine.replace('"reference": "'+line[3]+'"','"reference": "'+line[3]+"_GAP_"+str(countParts)+'"')
 			newLine=newLine.replace('"end": "'+str(end)+'"','"end": "'+str(alignB)+'"')
 			newLine=newLine.replace('"product": ""','"product": "Undefined"')
@@ -162,10 +209,13 @@ for x in range(0,lastlineIP):
 					newWrite=linesIP[x].replace('"begin": "'+str(begin)+'"','"begin": "'+str(int(GenesToUse[p].split("---")[1]))+'"')
 					#print str(int(GenesToUse[p].split("---")[1]))
 					#print str(int(GenesToUse[p+1].split("---")[0]))
+					geneString = line[11]
+					geneGenome = geneString.split('...')[0]
+					geneString = geneString.split('...')[1]
 					newWrite=newWrite.replace('"end": "'+str(end)+'"','"end": "'+str(int(GenesToUse[p+1].split("---")[0]))+'"')
-					newLine=newWrite.replace('"gene": "'+line[3]+'"','"gene": "'+line[3]+"_GAP_"+str(countParts)+'"')
+					newLine=newWrite.replace('"gene": "'+geneGenome+'...'+geneString+'"','"gene": "'+geneGenome+'...'+line[3]+"_GAP_"+str(countParts)+'"')
 					newLine=newLine.replace('"reference": "'+line[3]+'"','"reference": "'+line[3]+"_GAP_"+str(countParts)+'"')
-					newWrite=newWrite.replace('"product": ""','"product": "Undefined"')
+					newWrite=newLine.replace('"product": ""','"product": "Undefined"')
 					countParts+=1
 					ContigParts.append(newWrite)
 					fileResult.write(newWrite)
@@ -197,9 +247,10 @@ else:
 
 for p in range(0,lastlineS):
 	line=linesS[p].split('"')
-	if RegionName ==line[3]:
+	#print RegionName
+	if line[3] in RegionName:
 		sequence=line[11]
-		#print sequence
+		#print line[3]
 		break
 
 for l in range(0,lastlineS):
@@ -213,6 +264,7 @@ for l in range(0,lastlineS):
 		gene=gene.split('"');
 		geneLen=len(gene);
 		reference=gene[geneLen-2]
+		#print reference
 		if line[3]==reference:
 			sequenceGene=line[11]
 			#newGeneBegin=Abegin
@@ -240,6 +292,7 @@ for l in range(0,lastlineS):
 			newline=linesS[l].replace(sequence,sequencePart)
 			newline=newline.replace(QueryName,ToChange)
 			fileResultSeq.write(newline)
+			print newline
 
 	else:
 		fileResultSeq.write(linesS[l])

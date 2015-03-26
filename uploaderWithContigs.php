@@ -873,11 +873,12 @@ window.onload = function () {
                         else echo '<form name="uploadFiles" enctype="multipart/form-data" action="moreuploadWithContigs.php" method="POST" onsubmit="return validateForm();">';
                       ?>
                            <li class="FontModals">Choose an Option:</li><select id="inputType" class="form-control" name="typeUpload" onchange="showToUpload()">
+                                     <option value="no" class="FontModals">Single file</option>
                                      <option value="yes" class="FontModals">GFF+Fasta</option>
-                                     <option value="no" class="FontModals">Others</option></select>
-                          <div id="fileOther"></div>
-                          <div id="fileGFF+FASTA"><br><li class="FontModals">Choose a .gff file:</li> <input name='moreuploadedfileGFF[]' type='file' class='btn btn-default btn-lg'/>
-                          <br><li class="FontModals">Choose a .fasta file:</li> <input id="fileFASTA" name='moreuploadedfileFASTA[]' type='file' class='btn btn-default btn-lg'/><br></div>
+                                     </select>
+                          <div id="fileOther"><br><li class='FontModals'>Choose one of the supported file formats (.fasta, .gbk, .gff): </li><input name='moreuploadedfile[]' type='file' class='btn btn-default btn-lg'/>
+                          <br><input type='checkbox' name='Iscontig' value='yes'><a class='FontModals'>&nbsp;It is a FASTA file with contigs data</a><br></div>
+                          <div id="fileGFF+FASTA"></div>
                           <div class="modal-footer">
                           <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
                           <input type='submit' class='btn btn-primary btn-lg' value='Upload File' />

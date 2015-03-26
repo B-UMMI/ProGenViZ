@@ -540,12 +540,12 @@ try:
 						if countLines==1:
 							orgName=lines[i].replace(">","").strip().replace(" ","_")
 							countlines+=1
-							posIni.write("{\"name\": \""+ lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"genome\": \"" + str(count) + "\", \"gene\": \"" + str(count) + "..." + lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"product\": \"Undefined\",\"begin\": " + "\"" + str(0) + "\"" + ",\"end\": " + "\"" + length + "\"" +",\"contig\": " + "\"" + str(contigNumber) + "\"" + ",\"strand\": " + "\"" + "\""  + ",\"fileType\": " + "\".fasta\"," + "\"reference\": \""+ lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\",\n")
-							fileWithSequence.write("{\"gene\": \"" + lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"genome\": \"" + str(count) + "\",\"sequence\": \"")
+							posIni.write("{\"name\": \""+ lines[i].replace(">","").strip().replace(" ","_") + "\", \"genome\": \"" + str(count) + "\", \"gene\": \"" + str(count) + "..." + lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"product\": \"Undefined\",\"begin\": " + "\"" + str(0) + "\"" + ",\"end\": " + "\"" + length + "\"" +",\"contig\": " + "\"" + str(contigNumber) + "\"" + ",\"strand\": " + "\"" + "\""  + ",\"fileType\": " + "\".fasta\"," + "\"reference\": \""+ lines[i].replace(">","").strip().replace(" ","_") + "\",\n")
+							fileWithSequence.write("{\"gene\": \"" + lines[i].replace(">","").strip().replace(" ","_") + "\", \"genome\": \"" + str(count) + "\",\"sequence\": \"")
 						else:
 							countlines+=1
-							posIni.write("{\"name\": \""+ lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"genome\": \"" + str(count) + "\", \"gene\": \"" + str(count) + "..." + lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"product\": \"Undefined\",\"begin\": " + "\"" + str(0) + "\"" + ",\"end\": " + "\"" + length + "\"" +",\"contig\": " + "\"" + str(contigNumber) + "\"" + ",\"strand\": " + "\"" + "\"" + ",\"fileType\": " + "\".fasta\"," + "\"reference\": \""+ lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\",\n")
-							fileWithSequence.write("\"}\n{\"gene\": \"" + lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"genome\": \"" + str(count) + "\",\"sequence\": \"")
+							posIni.write("{\"name\": \""+ lines[i].replace(">","").strip().replace(" ","_") + "\", \"genome\": \"" + str(count) + "\", \"gene\": \"" + str(count) + "..." + lines[i].replace(">","").strip().replace(" ","_") +'_'+str(countlines)+ "\", \"product\": \"Undefined\",\"begin\": " + "\"" + str(0) + "\"" + ",\"end\": " + "\"" + length + "\"" +",\"contig\": " + "\"" + str(contigNumber) + "\"" + ",\"strand\": " + "\"" + "\"" + ",\"fileType\": " + "\".fasta\"," + "\"reference\": \""+ lines[i].replace(">","").strip().replace(" ","_") + "\",\n")
+							fileWithSequence.write("\"}\n{\"gene\": \"" + lines[i].replace(">","").strip().replace(" ","_") + "\", \"genome\": \"" + str(count) + "\",\"sequence\": \"")
 					elif not re.match('[A-Z]',lines[i]) and not re.match('[a-z]',lines[i]):
 						countLines+=1
 						countlines+=1

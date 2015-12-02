@@ -40,13 +40,13 @@ def CreateFastaFromInput(genome):
 
 def Create_Blastdb( questionDB ):
         if not os.path.isfile(name + ".nin") and not os.path.isfile(name + ".nhr") and not os.path.isfile(name + ".nsq"):
-                os.system( "makeblastdb -in " + questionDB  + " -out " + name + " -dbtype nucl -logfile " + name + "_blast.log" )
+                os.system( "/usr/local/ncbi/blast/bin/makeblastdb -in " + questionDB  + " -out " + name + " -dbtype nucl -logfile " + name + "_blast.log" )
         else:
                 os.remove(name + ".nin")
                 os.remove(name + ".nhr")
                 os.remove(name + ".nsq")
                 os.remove(name + "_blast.log")
-                os.system( "makeblastdb -in " + questionDB  + " -out " + name + " -dbtype nucl -logfile " + name + "_blast.log" )
+                os.system( "/usr/local/ncbi/blast/bin/makeblastdb -in " + questionDB  + " -out " + name + " -dbtype nucl -logfile " + name + "_blast.log" )
                 #print "BLAST DB files found. Using existing DBs.."
         return( name )
 
@@ -78,8 +78,11 @@ Create_Blastdb(fnaFileOutput)
 #Correr a Query:
 
 blast_out_file = "uploads/" + pathWhere + "/blastdbs/" + "blastResults_blastout" + "_subj.xml"
-cline = NcbiblastnCommandline(query=nameFASTA, db=name,evalue=evalue, out=blast_out_file, outfmt=5, num_alignments=7000, num_descriptions=7000)
-stdout, stderr = cline()
+#cline = NcbiblastnCommandline(query=nameFASTA, db=name,evalue=evalue, out=blast_out_file, outfmt=5, num_alignments=7000, num_descriptions=7000)
+#stdout, stderr = cline()
+blastCommand = "/usr/local/ncbi/blast/bin/blastn -out "+blast_out_file+" -outfmt 5 -query "+nameFASTA+" -db "+name+" -evalue "+str(evalue)+" -max_target_seqs 7000"
+#print blastCommand
+os.system(blastCommand)
 rec2 = open(blast_out_file)
 blast_records = NCBIXML.parse(rec2)
 os.remove(blast_out_file)

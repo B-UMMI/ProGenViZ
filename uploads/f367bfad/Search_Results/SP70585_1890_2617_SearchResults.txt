@@ -1,0 +1,2 @@
+#GeneAligned;AlignStart;AlignEnd;GenePosStart;GenePosEnd
+2...SP70585_1890_2617;1;2126;1754063;1756190

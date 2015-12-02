@@ -121,7 +121,7 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-3">
-          <img src="img/Logo-IMM.png" style="width: 200px; height: 200px; position: right;">
+          <img src="img/IMM_new_logo.png" style="width: 200px; height: 200px; position: right;">
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-7">
           <h3 style="color:white"> Contacts: </h3><br>
@@ -129,7 +129,7 @@
           <p class="navPrincipal" >João André Nogueira Custódio Carriço &nbsp;&nbsp;&nbsp;&nbsp;(<span class="navPrincipal" style="color:#00B8F5">jcarrico@fm.ul.pt</span>)<p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-1">
-          <img src="img/fcul.png" style="width: 200px; height: 200px;">
+          <img src="img/Ummi.png" style="width: 150px; height: 150px;">
         </div><!-- /.col-lg-4 -->
         
 

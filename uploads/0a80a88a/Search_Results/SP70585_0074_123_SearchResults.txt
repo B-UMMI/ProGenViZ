@@ -1,0 +1,1 @@
+#GeneAligned;AlignStart;AlignEnd;GenePosStart;GenePosEnd

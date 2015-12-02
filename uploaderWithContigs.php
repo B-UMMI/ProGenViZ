@@ -151,21 +151,21 @@
         $pathProdigal=$_SESSION['folderPath'].'/Prodigal_results/index.html';
         $pathToExport=$_SESSION['folderPath'].'/FastaToExport/index.html';
         $fp = fopen( $pathindexhtml,"wb");
-        fclose($fp);
+        //fclose($fp);
         $fpdb = fopen($pathdb,"wb");
-        fclose($fpdb);
+        //fclose($fpdb);
         $fpA = fopen($pathAlign,"wb");
-        fclose($fpA);
+        //fclose($fpA);
         $fpR = fopen($pathResults,"wb");
-        fclose($pathResults);
+        //fclose($pathResults);
         $fpSe = fopen($pathSearch,"wb");
-        fclose($pathSearch);
+        //fclose($pathSearch);
         $fpS = fopen($pathSequence,"wb");
-        fclose($pathSequence);
+        //fclose($pathSequence);
         $fpP = fopen($pathProdigal,"wb");
-        fclose($pathProdigal);
+        //fclose($pathProdigal);
         $fpP = fopen($pathToExport,"wb");
-        fclose($pathToExport);
+        //fclose($pathToExport);
         umask($old);
     }
 
@@ -179,6 +179,7 @@
         $stringFiles="";
         $existGFF='no';
         $existFASTA='no';
+	echo "AQUI";
         if($_POST['typeUpload']=='yes'){
 
                 $stringFiles = $stringFiles.$_SESSION['folderPath'].'/input_files/'.basename($_FILES['moreuploadedfileGFF']['name'][0]);

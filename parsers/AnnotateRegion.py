@@ -59,7 +59,8 @@ for i in range(1,lastlineR):
 	geneEndReal=linesR[i].split(";")[4]
 
 	threshBLAST = (int(geneBegin) + int(geneEnd)) * 0.1
-
+	#print PrevLineProdigal
+	#print lastlineP
 	for j in range(PrevLineProdigal+1,lastlineP):
 		if linesP[j].startswith(">"):
 			addToGenesToUse='yes'
@@ -118,12 +119,13 @@ for i in range(1,lastlineR):
 				isThere="yes"
 				break
 
-			else:
-				PrevLineProdigal=j
+			#else:
+				#PrevLineProdigal=j
 
 
 	
 	if isThere=="yes":
+		#print 'AQUI'
 		for k in range(1,lastlineIP-1):
 			line=linesIP[k].split('"')
 			if line[7]==genome and line[19]==geneBeginReal:

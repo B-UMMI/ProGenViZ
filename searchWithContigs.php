@@ -134,7 +134,7 @@
    else $_SESSION['editInfo']='no';
 
     if(isset($_POST['rundatabasesearch']) || isset($_POST['SearchForSequence'])){
-     if ($_SESSION['string_database']==null) $_SESSION['string_database']=array();
+	if ($_SESSION['string_database']==null) $_SESSION['string_database']=array();
      $_SESSION['searchBySequence']='yes';
      $_SESSION['AnnotateRegion']='no';
      if ($_SESSION['searchbox'] == 'yes'){
@@ -1129,10 +1129,10 @@
       $pathAligment="uploads/".$_SESSION['userPath']."/alignments/nucmer";
       $pathCoords="uploads/".$_SESSION['userPath']."/alignments/nucmer.coords";
       $pathSNPS="uploads/".$_SESSION['userPath']."/alignments/nucmer.snps";
-      $execution="nucmer -p ".$pathAligment." ".$referenceSequence." ".$querySequence;
+      $execution="/Users/bgoncalves/sandbox/programs/mummer/nucmer -p ".$pathAligment." ".$referenceSequence." ".$querySequence;
       exec($execution);
       $pathAligment=$pathAligment.".delta";
-      $execution2="show-snps -Clr ".$pathAligment." > ".$pathSNPS;
+      $execution2="/Users/bgoncalves/sandbox/programs/mummer/show-snps -Clr ".$pathAligment." > ".$pathSNPS;
       exec($execution2);
       exec("python parsers/GetSNPs.py $pathSNPS",$locations);
       $SNPs=explode('---',$locations[0]);
@@ -1189,11 +1189,11 @@
         $PathQuery=$parts[1];
         $partToChange=explode(".",$PathQuery);
         $partToChange=".".$partToChange[1];
-        echo "<div id='check-upload'>".$PathRef."</div>";
-        echo "<div id='check-upload'>".$PathQuery."</div>";
+        #echo "<div id='check-upload'>".$PathRef."</div>";
+        #echo "<div id='check-upload'>".$PathQuery."</div>";
         exec("python parsers/FastaFromInput.py $PathQuery $genome");
         $PathQuery=str_replace($partToChange, '.ffn', $PathQuery);
-        $execution="nucmer -p ".$pathAligment." ".$PathRef." ".$PathQuery;
+        $execution="/Users/bgoncalves/sandbox/programs/mummer/nucmer -p ".$pathAligment." ".$PathRef." ".$PathQuery;
         exec($execution);
         $ntrefPath="uploads/".$wherePath."/alignments/nucmer.ntref";
         if (file_exists($ntrefPath)){
@@ -1202,9 +1202,9 @@
         else{
          $pathAligment=$pathAligment.".delta";
          $pathDeltaF="uploads/".$_SESSION['userPath']."/alignments/nucmerFiltered.delta";
-         $execution="delta-filter -i ".$minidentity." -l ".$minAlignment." ".$pathAligment." > ".$pathDeltaF;
+         $execution="/Users/bgoncalves/sandbox/programs/mummer/delta-filter -i ".$minidentity." -l ".$minAlignment." ".$pathAligment." > ".$pathDeltaF;
          exec($execution);
-         $execution="show-coords -r -c -l ".$pathDeltaF." > ".$pathCoords;
+         $execution="/Users/bgoncalves/sandbox/programs/mummer/show-coords -r -c -l ".$pathDeltaF." > ".$pathCoords;
          exec($execution);
          exec("python makeComparisons/OrganizeContigs.py $wherePath $pathCoords");
         }
@@ -1223,6 +1223,7 @@
       
 
       if($_SESSION['rundatabasesearch']=='yes'){
+      echo "AQUI BLAST";
       $_SESSION['typesearch[]']=null;
       $_SESSION['isSearchSequence']='yes';
       $querygene=$_POST['querygene'];
@@ -1262,9 +1263,12 @@
           else $MinAlign=$_POST['edit_Align'];
           $partsG = explode("...", $querygene);
           $fileSequence='uploads/'.$wherePath.'/Sequence_files/'.$partsG[1].'_sequence.fasta';
-          exec("python makeComparisons/database_search.py $querygene $fileSequence $refgenome $evalue $MinAlign $wherePath",$out);
+        
+	exec("python makeComparisons/database_search.py $querygene $fileSequence $refgenome $evalue $MinAlign $wherePath",$out, $statusD);
 
-
+	#echo "<div id='check-upload'>".$statusD."</div>";
+	
+	#echo "<div id='check-upload'>".$out[0]."</div>";
           array_push($_SESSION['ArrayBLAST[]'], $querygene);
           $_SESSION['prevQueryGene']=$querygene;
           $outGenes=$out[0];
@@ -1462,13 +1466,13 @@
           $geneBegin=$_POST['geneBegin'];
           $geneEnd=$_POST['geneEnd'];
           exec("python parsers/AddTail.py $wherePath $pathToSequence");
-          $path = "prodigal -i /uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > /uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
-          exec("$path");
-          #echo "<div id='check-upload'>".$wherePath."</div>";
-          #echo "<div id='check-upload'>".$searchRegion."</div>";
-          #echo "<div id='check-upload'>".$num_filesArray."</div>";
-          #echo "<div id='check-upload'>".$geneBegin."</div>";
-          #echo "<div id='check-upload'>".$geneEnd."</div>";
+	  $prodigalCommand = "/usr/local/bin/prodigal -i uploads/".$wherePath."/Sequence_files/".$searchRegion."_sequence.fasta -c -m -g 11 -p single -f sco -q > uploads/".$wherePath."/Prodigal_results/".$searchRegion."_Presults.txt";
+	  exec($prodigalCommand);
+          echo "<div id='check-upload'>".$wherePath."</div>";
+          echo "<div id='check-upload'>".$searchRegion."</div>";
+          echo "<div id='check-upload'>".$num_filesArray."</div>";
+          echo "<div id='check-upload'>".$geneBegin."</div>";
+          echo "<div id='check-upload'>".$geneEnd."</div>";
           exec("python parsers/AnnotateRegion.py $wherePath $searchRegion $num_filesArray $geneBegin $geneEnd",$contigToExport);
           $Topass=$searchR2[0].'...'.$contigToExport[0];
           $pos=strpos($_SESSION["ContigsToExport"],$Topass);

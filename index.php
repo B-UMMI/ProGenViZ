@@ -117,13 +117,13 @@
 
       <div class="row">
         <div class="col-lg-3">
-          <img src="img/Logo-IMM.png" style="width: 200px; height: 200px; position: right;">
+          <img src="img/IMM_new_logo.png" style="width: 200px; height: 200px; position: right;">
         </div>
         <div class="col-lg-7">
          <p align="justify" style= "font-size:20px; font-family:'Arial';">ProGenViZ is a simple web-based program build to visualize, compare, search, order sequences against a reference, and annotate multiple prokaryotic genome sequences and contigs.</p>
         </div>
         <div class="col-lg-1">
-          <img src="img/fcul.png" style="width: 200px; height: 200px;">
+          <img src="img/Ummi.png" style="width: 150px; height: 150px;">
         </div>
         
 

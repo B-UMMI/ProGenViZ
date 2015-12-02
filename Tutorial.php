@@ -122,14 +122,14 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-3">
-          <img src="img/Logo-IMM.png" style="width: 200px; height: 200px; position: right;">
+          <img src="img/IMM_new_logo.png" style="width: 200px; height: 200px; position: right;">
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-7">
           <li style ="color:white"><p align="justify" style= "font-size:18px; font-family:'Arial';">A video with a walkthrough through the features of ProGenViz is available <a target="_blank" href="https://www.youtube.com/watch?v=F34hbDKzTOg">here</a></p></li>
           <li style ="color:white"><p align="justify" style= "font-size:18px; font-family:'Arial';">More detailed information about the software available <a href="./Tutorial/DevelopedFrameworkPDF.pdf" download="progenviz.pdf">here</a></li>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-1">
-          <img src="img/fcul.png" style="width: 200px; height: 200px;">
+          <img src="img/Ummi.png" style="width: 150px; height: 150px;">
         </div><!-- /.col-lg-4 -->
         
 

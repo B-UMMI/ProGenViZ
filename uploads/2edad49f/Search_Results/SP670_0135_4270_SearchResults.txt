@@ -1,0 +1,2 @@
+#GeneAligned;AlignStart;AlignEnd;GenePosStart;GenePosEnd
+3...SP670_0135_7610;1;3939;113046;116985

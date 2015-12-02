@@ -122,7 +122,7 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-3">
-          <img src="img/Logo-IMM.png" style="width: 200px; height: 200px; position: right;">
+          <img src="img/IMM_new_logo.png" style="width: 200px; height: 200px; position: right;">
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-7">
           <!--<p id="indexText">Here are some test files that can be used:</p><p>&nbsp;</p><br>-->
@@ -143,7 +143,7 @@
           ?></table></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-1">
-          <img src="img/fcul.png" style="width: 200px; height: 200px;">
+          <img src="img/Ummi.png" style="width: 150px; height: 150px;">
         </div><!-- /.col-lg-4 -->
         
 

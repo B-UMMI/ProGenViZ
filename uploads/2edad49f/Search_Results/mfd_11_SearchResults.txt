@@ -1,2 +1,0 @@
-#GeneAligned;AlignStart;AlignEnd;GenePosStart;GenePosEnd
-2...mfd_4128;1;3510;20704;24214
